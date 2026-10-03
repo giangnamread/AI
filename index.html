@@ -92,13 +92,13 @@
                 </div>
             </div>
 
-            <!-- Direct QR Code Access Card for Students at Overview -->
+            <!-- Direct QR Code Access Card for Students at Overview (Jumping directly to game) -->
             <div class="bg-slate-900/90 border border-cyan-500/30 p-6 sm:p-8 rounded-3xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="space-y-3 flex-1">
                     <span class="bg-cyan-500/20 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Dành cho học sinh quét vào thẳng phần mềm 📱</span>
-                    <h3 class="text-xl sm:text-2xl font-bold text-white">Quét Mã QR Vào Thẳng Trò Chơi & Bài Giảng</h3>
+                    <h3 class="text-xl sm:text-2xl font-bold text-white">Quét Mã QR Vào Thẳng Trò Chơi Thách Đấu</h3>
                     <p class="text-slate-300 text-xs sm:text-sm">
-                        Thầy/cô chiếu màn hình này ở đầu giờ. Học sinh dùng camera điện thoại quét mã QR bên cạnh để mở phần mềm trực tiếp trên thiết bị cá nhân!
+                        Thầy/cô chiếu màn hình này ở đầu giờ. Học sinh dùng camera điện thoại quét mã QR bên cạnh để mở phần mềm trực tiếp trên thiết bị cá nhân và chơi game ngay!
                     </p>
                     <div class="flex flex-col sm:flex-row gap-2 pt-1">
                         <input type="text" id="customAppUrl" placeholder="Dán link web công khai (vd: https://...) để đổi QR" class="flex-1 bg-slate-950 border border-slate-700 px-3 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500">
@@ -110,7 +110,7 @@
                 </div>
                 <div class="bg-white p-4 rounded-2xl shadow-lg border-4 border-cyan-500 flex flex-col items-center shrink-0">
                     <img id="appQrImg" src="" alt="QR App Direct" class="w-36 h-36 object-contain">
-                    <span class="text-slate-900 text-xs font-bold mt-2">Quét vào phần mềm 🚀</span>
+                    <span class="text-slate-900 text-xs font-bold mt-2">Quét vào trò chơi 🚀</span>
                 </div>
             </div>
 
@@ -193,7 +193,7 @@
                         <p class="text-slate-300 text-sm font-medium mb-4">Tự học chủ động & Quản lý tri thức</p>
                         <ul class="space-y-2 text-slate-400 text-sm mb-6">
                             <li>🎯 <b>Tự chủ:</b> Tự đặt mục tiêu học tập rõ ràng.</li>
-                            <li>🛠️️ <b>Công cụ số:</b> NotebookLM, Notion để tổng hợp kiểm tra kiến thức.</li>
+                            <li>🛠 <b>Công cụ số:</b> NotebookLM, Notion để tổng hợp kiểm tra kiến thức.</li>
                         </ul>
                     </div>
                     <button onclick="openModal('Self-Directed Learning', 'Biến học sinh thành nhà quản lý việc học của chính mình, rèn luyện sự tự chủ trong kỷ nguyên thông tin.')" class="w-full bg-slate-800 hover:bg-slate-700 py-2.5 rounded-xl font-semibold text-xs text-amber-400 border border-slate-700 transition">Chi tiết</button>
@@ -243,7 +243,7 @@
                 <!-- Game Container & HUD -->
                 <div class="w-full bg-slate-900/90 border border-slate-800 p-4 sm:p-6 rounded-3xl shadow-2xl flex flex-col items-center space-y-4">
                     
-                    <!-- Student Login / Instructions Screen -->
+                    <!-- Student Login / Instructions Screen with detailed icon guide -->
                     <div id="gameStartScreen" class="w-full flex flex-col items-center text-center py-6 space-y-4">
                         <div class="w-16 h-16 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center text-3xl border border-amber-500/40">⏱️</div>
                         <h3 class="text-xl sm:text-2xl font-bold text-amber-400">Luật Chơi & Hướng Dẫn Biểu Tượng Thách Đấu</h3>
@@ -498,17 +498,19 @@
             };
 
             window.deleteRecord = async function(type, id) {
+                let colName = 'classroom_scores';
+                if(type === 'quiz') colName = 'quiz_results';
+                if(type === 'discussion') colName = 'student_discussions';
+                
                 try {
-                    let colRef = scoresRefInstance;
-                    if(type === 'quiz') colRef = quizRefInstance;
-                    if(type === 'discussion') colRef = discRefInstance;
-                    
-                    if (db && colRef && id) {
-                        await deleteDoc(doc(colRef, id));
+                    if (db && appId && id) {
+                        const targetDocRef = doc(db, 'artifacts', appId, 'public', 'data', colName, id);
+                        await deleteDoc(targetDocRef);
                     }
                 } catch(err) {
-                    console.warn("Cloud delete error, trying local:", err);
+                    console.warn("Cloud delete note:", err);
                 }
+
                 let key = 'classroom_leaderboard';
                 if(type === 'quiz') key = 'quiz_results_local';
                 if(type === 'discussion') key = 'discussion_local';
@@ -701,7 +703,7 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             let currentUrl = window.location.href.split('#')[0];
-            if(currentUrl.startsWith('file:')) {
+            if(currentUrl.startsWith('file:') || currentUrl.includes('blob:')) {
                 currentUrl = 'https://hanhtrinh-so-ai.netlify.app';
             }
             const fullTargetUrl = currentUrl + '#game';
@@ -725,7 +727,7 @@
             let urlVal = customAppUrlInput.value.trim();
             if(!urlVal) {
                 let fallback = window.location.href.split('#')[0];
-                if(fallback.startsWith('file:')) fallback = 'https://hanhtrinh-so-ai.netlify.app';
+                if(fallback.startsWith('file:') || fallback.includes('blob:')) fallback = 'https://hanhtrinh-so-ai.netlify.app';
                 urlVal = fallback + '#game';
             }
             updateAppQrImage(urlVal);
