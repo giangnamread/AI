@@ -54,7 +54,7 @@
         <!-- TAB 0: TỔNG QUAN & QR -->
         <section id="tab-0" class="space-y-6">
             <div class="glass-card rounded-3xl p-8 text-center max-w-3xl mx-auto glow">
-                <h2 class="text-3xl font-extrabold mb-4 bg-gradient-to-r from-white via-slate-200 to-indigo-300 bg-clip-text text-transparent">Chào mừng đến với Tương lai với Chuyển đổi số</h2>
+                <h2 class="text-3xl font-extrabold mb-4 bg-gradient-to-r from-white via-slate-200 to-indigo-300 bg-clip-text text-transparent">Chào mừng đến với Tương lai chuyển đổi số</h2>
                 <p class="text-slate-300 text-sm mb-6 leading-relaxed">Trải nghiệm môi trường học tập hiện đại, kết hợp các mô hình giáo dục thông minh, tương tác AI và tham gia Minigame Thách Đấu lớp học trực tiếp!</p>
                 <div class="flex justify-center mb-6">
                     <div class="bg-white p-4 rounded-2xl shadow-xl inline-block" id="qrcode-container"></div>
@@ -383,7 +383,7 @@
                 <div class="space-y-3">
                     <h4 class="font-bold text-white text-sm flex items-center justify-between">
                         <span>💬 Phiếu Thảo Luận Nhóm</span>
-                        <button onclick="clearCloudData('discussion')" class="text-[10px] bg-red-950/80 text-red-300 px-2.5 py-1 rounded-lg border border-red-800 hover:bg-red-900">Xóa dữ liệu Thảo Luận 🗑️️</button>
+                        <button onclick="clearCloudData('discussion')" class="text-[10px] bg-red-950/80 text-red-300 px-2.5 py-1 rounded-lg border border-red-800 hover:bg-red-900">Xóa dữ liệu Thảo Luận 🗑</button>
                     </h4>
                     <div class="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/50">
                         <table class="w-full text-left text-xs">
@@ -420,7 +420,6 @@
             authDomain: "hanhtrinh-so-ai.firebaseapp.com",
             projectId: "hanhtrinh-so-ai"
         };
-        // Initialize Firebase safely if not already initialized
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
@@ -530,14 +529,13 @@
             document.getElementById('quiz-final-score').innerText = `Đạt: ${quizScore}/3 điểm`;
             const name = document.getElementById('student-quiz-name').value.trim();
             
-            // Save to Cloud & LocalStorage
             const record = { name, score: quizScore, total: 3, timestamp: new Date().toISOString() };
             let localQuiz = JSON.parse(localStorage.getItem('cloud_quiz') || '[]');
             localQuiz.push(record);
             localStorage.setItem('cloud_quiz', JSON.stringify(localQuiz));
 
             try {
-                db.collection('quiz_results').add(record).catch(e => console.log('Firestore offline mode'));
+                db.collection('quiz_results').add(record).catch(e => console.log('Offline mode'));
             } catch(e) {}
         }
 
@@ -578,7 +576,7 @@
                 feedback.innerText = "✨ Chính xác! Cấu trúc chuẩn: [Vai trò] -> [Nhiệm vụ] -> [Định dạng]. Nhận 10 điểm kỹ năng!";
             } else {
                 feedback.className = "text-xs font-semibold text-amber-400";
-                feedback.innerText = "⚠️️ Chưa chính xác. Gợi ý: Luôn bắt đầu bằng việc gán vai trò cho AI trước!";
+                feedback.innerText = "⚠ Chưa chính xác. Gợi ý: Luôn bắt đầu bằng việc gán vai trò cho AI trước!";
             }
         }
 
@@ -640,7 +638,6 @@
             ctx.fillStyle = '#090d16';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Spawn obstacles / items
             if(Math.random() < 0.03) {
                 obstacles.push({
                     x: Math.random() * 280,
@@ -650,20 +647,17 @@
                 });
             }
 
-            // Draw Player
             ctx.fillStyle = '#6366f1';
             ctx.fillRect(playerX, 360, 30, 35);
             ctx.fillStyle = '#ffffff';
             ctx.font = '16px sans-serif';
             ctx.fillText('🚀', playerX + 3, 384);
 
-            // Update & Draw Obstacles
             for(let i = obstacles.length - 1; i >= 0; i--) {
                 let obs = obstacles[i];
                 obs.y += obs.speed;
                 ctx.fillText(obs.type === 'star' ? '⭐' : '🤖', obs.x, obs.y);
 
-                // Collision detection
                 if(obs.y > 350 && obs.y < 390 && obs.x > playerX - 15 && obs.x < playerX + 30) {
                     if(obs.type === 'star') gameScore += 10;
                     else gameScore -= 5;
@@ -687,7 +681,6 @@
             document.getElementById('game-over-screen').classList.remove('hidden');
             document.getElementById('final-game-stats').innerText = `Học sinh: ${playerName} | Điểm số: ${gameScore} điểm`;
 
-            // Save permanent cloud record
             const timeTaken = 180 - gameTimeLeft;
             const record = { name: playerName, score: gameScore, timeTaken, timestamp: new Date().toISOString() };
             
@@ -696,7 +689,7 @@
             localStorage.setItem('cloud_minigame', JSON.stringify(localGames));
 
             try {
-                db.collection('minigame_results').add(record).catch(e => console.log('Firestore offline mode'));
+                db.collection('minigame_results').add(record).catch(e => console.log('Offline mode'));
             } catch(e) {}
         }
 
@@ -753,7 +746,6 @@
 
         // --- TAB 7: BẢNG GIÁO VIÊN & XẾP HẠNG VĨNH VIỄN ---
         function loadTeacherDashboard() {
-            // Load from LocalStorage & Firestore
             loadMinigameLeaderboard();
             loadQuizTable();
             loadDiscussionTable();
@@ -781,7 +773,6 @@
                 tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-500">Chưa có học sinh nộp điểm trò chơi.</td></tr>`;
                 return;
             }
-            // Sort: Score descending, time ascending
             data.sort((a, b) => b.score - a.score || a.timeTaken - b.timeTaken);
 
             tbody.innerHTML = '';
