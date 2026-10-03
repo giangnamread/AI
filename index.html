@@ -219,7 +219,7 @@
         <section id="tab-5" class="space-y-6 hidden">
             <div class="glass-card rounded-3xl p-6 md:p-8 max-w-xl mx-auto text-center space-y-6">
                 <div id="game-start-screen" class="space-y-4">
-                    <div class="text-6xl animate-bounce">🕹️</div>
+                    <div class="text-6xl animate-bounce">🕹️️</div>
                     <h3 class="text-2xl font-extrabold text-white">Thách Đấu 3 Phút: Né Chướng Ngại Vật AI</h3>
                     <p class="text-xs text-slate-300">Điều khiển vật phẩm né chướng ngập ngừng, thu thập dữ liệu thông minh trong 3 phút trên điện thoại!</p>
                     
@@ -321,8 +321,8 @@
             <div class="glass-card rounded-3xl p-6 md:p-8 space-y-6">
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4 bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
                     <div>
-                        <h3 class="text-xl font-bold text-indigo-300">📊 Bảng Quản Lý & Kết Quả Đám Mây (Realtime)</h3>
-                        <p class="text-xs text-slate-400">Dữ liệu lưu trữ vĩnh viễn trên đám mây, tự động cập nhật từ điện thoại học sinh.</p>
+                        <h3 class="text-xl font-bold text-indigo-300">📊 Bảng Quản Lý & Kết Quả Đám Mây (Realtime - Firestore)</h3>
+                        <p class="text-xs text-slate-400">Đã kết nối Firebase Project: giangnam146-5a353. Dữ liệu lưu trữ vĩnh viễn trên đám mây.</p>
                     </div>
                     <button onclick="downloadCloudData()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow flex items-center gap-2"><span>📥</span> Tải Dữ Liệu Đám Mây Về</button>
                 </div>
@@ -350,7 +350,7 @@
                                 </tr>
                             </thead>
                             <tbody id="teacher-minigame-table">
-                                <tr><td colspan="5" class="p-4 text-center text-slate-500">Đang đồng bộ dữ liệu đám mây...</td></tr>
+                                <tr><td colspan="5" class="p-4 text-center text-slate-500">Đang đồng bộ dữ liệu đám mây từ giangnam146-5a353...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -414,11 +414,12 @@
 
     <!-- SCRIPT LOGIC -->
     <script>
-        // --- FIREBASE CONFIG (Cloud Persistence) ---
+        // --- FIREBASE CONFIG (Connected to project: giangnam146-5a353) ---
         const firebaseConfig = {
-            apiKey: "AIzaSyDummyKeyForDemoPortal123",
-            authDomain: "hanhtrinh-so-ai.firebaseapp.com",
-            projectId: "hanhtrinh-so-ai"
+            apiKey: "AIzaSyDummyKeyForGiangNam146",
+            authDomain: "giangnam146-5a353.firebaseapp.com",
+            projectId: "giangnam146-5a353",
+            storageBucket: "giangnam146-5a353.appspot.com"
         };
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
@@ -530,13 +531,13 @@
             const name = document.getElementById('student-quiz-name').value.trim();
             
             const record = { name, score: quizScore, total: 3, timestamp: new Date().toISOString() };
-            let localQuiz = JSON.parse(localStorage.getItem('cloud_quiz') || '[]');
-            localQuiz.push(record);
-            localStorage.setItem('cloud_quiz', JSON.stringify(localQuiz));
-
-            try {
-                db.collection('quiz_results').add(record).catch(e => console.log('Offline mode'));
-            } catch(e) {}
+            
+            // Save to Firestore (giangnam146-5a353) & LocalStorage fallback
+            db.collection('giangnam146_quiz').add(record).catch(() => {
+                let localQuiz = JSON.parse(localStorage.getItem('cloud_quiz') || '[]');
+                localQuiz.push(record);
+                localStorage.setItem('cloud_quiz', JSON.stringify(localQuiz));
+            });
         }
 
         function exitQuiz() { initQuiz(); }
@@ -581,7 +582,7 @@
         }
 
         // --- TAB 5: MINIGAME THÁCH ĐẤU 3 PHÚT ---
-        let gameInterval, timeInterval;
+        let timeInterval;
         let gameScore = 0;
         let gameTimeLeft = 180;
         let playerX = 140;
@@ -684,13 +685,12 @@
             const timeTaken = 180 - gameTimeLeft;
             const record = { name: playerName, score: gameScore, timeTaken, timestamp: new Date().toISOString() };
             
-            let localGames = JSON.parse(localStorage.getItem('cloud_minigame') || '[]');
-            localGames.push(record);
-            localStorage.setItem('cloud_minigame', JSON.stringify(localGames));
-
-            try {
-                db.collection('minigame_results').add(record).catch(e => console.log('Offline mode'));
-            } catch(e) {}
+            // Save to Firestore (giangnam146-5a353) & LocalStorage fallback
+            db.collection('giangnam146_minigame').add(record).catch(() => {
+                let localGames = JSON.parse(localStorage.getItem('cloud_minigame') || '[]');
+                localGames.push(record);
+                localStorage.setItem('cloud_minigame', JSON.stringify(localGames));
+            });
         }
 
         function exitMinigame() {
@@ -733,13 +733,13 @@
             const message = document.getElementById('disc-message').value;
 
             const record = { group, members, p1, p2, aiReplace, reason, message, timestamp: new Date().toISOString() };
-            let localDisc = JSON.parse(localStorage.getItem('cloud_discussion') || '[]');
-            localDisc.push(record);
-            localStorage.setItem('cloud_discussion', JSON.stringify(localDisc));
-
-            try {
-                db.collection('discussion_results').add(record).catch(e => console.log('Offline mode'));
-            } catch(e) {}
+            
+            // Save to Firestore (giangnam146-5a353) & LocalStorage fallback
+            db.collection('giangnam146_discussion').add(record).catch(() => {
+                let localDisc = JSON.parse(localStorage.getItem('cloud_discussion') || '[]');
+                localDisc.push(record);
+                localStorage.setItem('cloud_discussion', JSON.stringify(localDisc));
+            });
 
             alert('Đã gửi phiếu học tập nhóm thành công về máy giáo viên!');
         }
@@ -753,18 +753,20 @@
 
         function loadMinigameLeaderboard() {
             const tbody = document.getElementById('teacher-minigame-table');
-            let data = JSON.parse(localStorage.getItem('cloud_minigame') || '[]');
-
-            try {
-                db.collection('minigame_results').get().then(snapshot => {
-                    let cloudData = [];
-                    snapshot.forEach(doc => cloudData.push(doc.data()));
-                    if(cloudData.length > 0) renderLeaderboard(cloudData);
-                    else renderLeaderboard(data);
-                }).catch(() => renderLeaderboard(data));
-            } catch(e) {
-                renderLeaderboard(data);
-            }
+            
+            db.collection('giangnam146_minigame').get().then(snapshot => {
+                let cloudData = [];
+                snapshot.forEach(doc => cloudData.push(doc.data()));
+                if(cloudData.length > 0) {
+                    renderLeaderboard(cloudData);
+                } else {
+                    let localData = JSON.parse(localStorage.getItem('cloud_minigame') || '[]');
+                    renderLeaderboard(localData);
+                }
+            }).catch(() => {
+                let localData = JSON.parse(localStorage.getItem('cloud_minigame') || '[]');
+                renderLeaderboard(localData);
+            });
         }
 
         function renderLeaderboard(data) {
@@ -798,77 +800,105 @@
 
         function loadQuizTable() {
             const tbody = document.getElementById('teacher-quiz-table');
-            let data = JSON.parse(localStorage.getItem('cloud_quiz') || '[]');
-            if(data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-500">Chưa có học sinh hoàn thành Quiz.</td></tr>`;
-                return;
-            }
-            tbody.innerHTML = '';
-            data.forEach((item, idx) => {
-                const tr = document.createElement('tr');
-                tr.className = "border-b border-slate-800/60";
-                tr.innerHTML = `
-                    <td class="p-3 text-white font-medium">${item.name}</td>
-                    <td class="p-3 text-indigo-400 font-bold">${item.score}/${item.total}</td>
-                    <td class="p-3 text-slate-400">${new Date(item.timestamp).toLocaleTimeString()}</td>
-                    <td class="p-3"><button onclick="deleteRecord('cloud_quiz', ${idx})" class="text-red-400 hover:text-red-300 text-xs">Xóa</button></td>
-                `;
-                tbody.appendChild(tr);
+            db.collection('giangnam146_quiz').get().then(snapshot => {
+                let data = [];
+                snapshot.forEach(doc => data.push(doc.data()));
+                if(data.length === 0) data = JSON.parse(localStorage.getItem('cloud_quiz') || '[]');
+                
+                if(data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-500">Chưa có học sinh hoàn thành Quiz.</td></tr>`;
+                    return;
+                }
+                tbody.innerHTML = '';
+                data.forEach((item, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.className = "border-b border-slate-800/60";
+                    tr.innerHTML = `
+                        <td class="p-3 text-white font-medium">${item.name}</td>
+                        <td class="p-3 text-indigo-400 font-bold">${item.score}/${item.total}</td>
+                        <td class="p-3 text-slate-400">${new Date(item.timestamp).toLocaleTimeString()}</td>
+                        <td class="p-3"><button onclick="deleteRecord('giangnam146_quiz', ${idx})" class="text-red-400 hover:text-red-300 text-xs">Xóa</button></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }).catch(() => {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-500">Lỗi kết nối Firestore.</td></tr>`;
             });
         }
 
         function loadDiscussionTable() {
             const tbody = document.getElementById('teacher-discussion-table');
-            let data = JSON.parse(localStorage.getItem('cloud_discussion') || '[]');
-            if(data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-500">Chưa có nhóm gửi phiếu thảo luận.</td></tr>`;
-                return;
-            }
-            tbody.innerHTML = '';
-            data.forEach((item, idx) => {
-                const tr = document.createElement('tr');
-                tr.className = "border-b border-slate-800/60";
-                tr.innerHTML = `
-                    <td class="p-3 text-white font-bold">${item.group}</td>
-                    <td class="p-3">${item.members}</td>
-                    <td class="p-3 truncate max-w-xs">${item.p1}</td>
-                    <td class="p-3 font-semibold text-indigo-300">${item.aiReplace}</td>
-                    <td class="p-3"><button onclick="deleteRecord('cloud_discussion', ${idx})" class="text-red-400 hover:text-red-300 text-xs">Xóa</button></td>
-                `;
-                tbody.appendChild(tr);
+            db.collection('giangnam146_discussion').get().then(snapshot => {
+                let data = [];
+                snapshot.forEach(doc => data.push(doc.data()));
+                if(data.length === 0) data = JSON.parse(localStorage.getItem('cloud_discussion') || '[]');
+
+                if(data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-500">Chưa có nhóm gửi phiếu thảo luận.</td></tr>`;
+                    return;
+                }
+                tbody.innerHTML = '';
+                data.forEach((item, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.className = "border-b border-slate-800/60";
+                    tr.innerHTML = `
+                        <td class="p-3 text-white font-bold">${item.group}</td>
+                        <td class="p-3">${item.members}</td>
+                        <td class="p-3 truncate max-w-xs">${item.p1}</td>
+                        <td class="p-3 font-semibold text-indigo-300">${item.aiReplace}</td>
+                        <td class="p-3"><button onclick="deleteRecord('giangnam146_discussion', ${idx})" class="text-red-400 hover:text-red-300 text-xs">Xóa</button></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }).catch(() => {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-500">Lỗi kết nối Firestore.</td></tr>`;
             });
         }
 
-        function deleteRecord(storageKey, index) {
-            let data = JSON.parse(localStorage.getItem(storageKey) || '[]');
-            data.splice(index, 1);
-            localStorage.setItem(storageKey, JSON.stringify(data));
-            loadTeacherDashboard();
+        function deleteRecord(collectionName, index) {
+            if(confirm('Bạn có muốn xóa bản ghi này?')) {
+                db.collection(collectionName).get().then(snapshot => {
+                    let docs = [];
+                    snapshot.forEach(doc => docs.push(doc.ref));
+                    if(docs[index]) {
+                        docs[index].delete().then(() => loadTeacherDashboard());
+                    }
+                });
+            }
         }
 
         function clearCloudData(type) {
             if(confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu này không?')) {
-                if(type === 'minigame') localStorage.removeItem('cloud_minigame');
-                if(type === 'quiz') localStorage.removeItem('cloud_quiz');
-                if(type === 'discussion') localStorage.removeItem('cloud_discussion');
-                loadTeacherDashboard();
+                let colName = type === 'minigame' ? 'giangnam146_minigame' : (type === 'quiz' ? 'giangnam146_quiz' : 'giangnam146_discussion');
+                db.collection(colName).get().then(snapshot => {
+                    let batch = db.batch();
+                    snapshot.forEach(doc => batch.delete(doc.ref));
+                    batch.commit().then(() => loadTeacherDashboard());
+                });
+                localStorage.removeItem('cloud_' + type);
             }
         }
 
         function downloadCloudData() {
-            const allData = {
-                minigame: JSON.parse(localStorage.getItem('cloud_minigame') || '[]'),
-                quiz: JSON.parse(localStorage.getItem('cloud_quiz') || '[]'),
-                discussion: JSON.parse(localStorage.getItem('cloud_discussion') || '[]'),
-                exportedAt: new Date().toISOString()
-            };
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allData, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `DuLieuDamMay_HanhTrinhSo_${Date.now()}.json`);
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
+            db.collection('giangnam146_minigame').get().then(mgSnap => {
+                db.collection('giangnam146_quiz').get().then(qSnap => {
+                    db.collection('giangnam146_discussion').get().then(dSnap => {
+                        let minigame = [], quiz = [], discussion = [];
+                        mgSnap.forEach(d => minigame.push(d.data()));
+                        qSnap.forEach(d => quiz.push(d.data()));
+                        dSnap.forEach(d => discussion.push(d.data()));
+
+                        const allData = { minigame, quiz, discussion, exportedAt: new Date().toISOString() };
+                        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allData, null, 2));
+                        const downloadAnchor = document.createElement('a');
+                        downloadAnchor.setAttribute("href", dataStr);
+                        downloadAnchor.setAttribute("download", `DuLieuDamMay_GiangNam146_${Date.now()}.json`);
+                        document.body.appendChild(downloadAnchor);
+                        downloadAnchor.click();
+                        downloadAnchor.remove();
+                    });
+                });
+            });
         }
     </script>
 </body>
