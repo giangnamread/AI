@@ -1,31 +1,26 @@
 <!DOCTYPE html>
-<html lang="vi" class="dark">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hành Trình Số: Cổng Thông Tin & Thách Đấu Lớp Học</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
+            font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #090d16 0%, #111827 100%);
-            color: #f3f4f6;
-            min-height: 100vh;
+            color: #f8fafc;
         }
-        canvas { touch-action: none; display: block; width: 100%; height: 100%; }
+        canvas {
+            touch-action: none;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
-<body class="flex flex-col min-h-screen selection:bg-cyan-500 selection:text-white">
+<body class="min-h-screen flex flex-col selection:bg-cyan-500 selection:text-white">
 
     <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -42,12 +37,13 @@
             </div>
             <!-- Navigation Tabs -->
             <nav class="hidden lg:flex items-center gap-1 bg-slate-800/80 p-1.5 rounded-2xl border border-slate-700">
-                <button onclick="switchTab('overview')" id="nav-overview" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all bg-cyan-500 text-white shadow">Tổng quan</button>
-                <button onclick="switchTab('quiz')" id="nav-quiz" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:text-white">Khởi động</button>
+                <button onclick="switchTab('overview')" id="nav-overview" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all bg-cyan-500 text-white shadow">Tổng quan & QR</button>
+                <button onclick="switchTab('quiz')" id="nav-quiz" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:text-white">Khởi động (30s)</button>
                 <button onclick="switchTab('models')" id="nav-models" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:text-white">3 Mô hình</button>
-                <button onclick="switchTab('padlet')" id="nav-padlet" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:text-white">Padlet & QR</button>
+                <button onclick="switchTab('aitools')" id="nav-aitools" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:text-white">Công cụ AI & Phụ Đạo 🤖</button>
+                <button onclick="switchTab('padlet')" id="nav-padlet" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:text-white">Padlet & Thực hành</button>
                 <button onclick="switchTab('game')" id="nav-game" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:text-white">Thách đấu 3 Phút 🏆</button>
-                <button onclick="switchTab('discussion')" id="nav-discussion" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:text-white">Thảo luận</button>
+                <button onclick="switchTab('discussion')" id="nav-discussion" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all text-slate-300 hover:text-white">Phiếu Thảo Luận 💬</button>
                 <button onclick="switchTab('teacher')" id="nav-teacher" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all text-amber-400 hover:text-amber-300 border border-amber-500/30 bg-amber-500/10">Bảng Giáo Viên 📊</button>
             </nav>
             <!-- Mobile Menu Toggle -->
@@ -57,19 +53,19 @@
         </div>
         <!-- Mobile Dropdown Menu -->
         <div id="mobileMenu" class="hidden lg:hidden bg-slate-900 border-b border-slate-800 px-4 py-3 flex flex-col gap-2">
-            <button onclick="switchTab('overview'); toggleMobileMenu();" class="text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800">Tổng quan</button>
-            <button onclick="switchTab('quiz'); toggleMobileMenu();" class="text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800">Khởi động (Quiz)</button>
+            <button onclick="switchTab('overview'); toggleMobileMenu();" class="text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800">Tổng quan & QR</button>
+            <button onclick="switchTab('quiz'); toggleMobileMenu();" class="text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800">Khởi động (Quiz 30s)</button>
             <button onclick="switchTab('models'); toggleMobileMenu();" class="text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800">3 Mô hình học</button>
-            <button onclick="switchTab('padlet'); toggleMobileMenu();" class="text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800">Padlet & QR</button>
+            <button onclick="switchTab('aitools'); toggleMobileMenu();" class="text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800">Công cụ AI & Phụ Đạo 🤖</button>
+            <button onclick="switchTab('padlet'); toggleMobileMenu();" class="text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800">Padlet & Thực hành nhóm</button>
             <button onclick="switchTab('game'); toggleMobileMenu();" class="text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800">Thách Đấu 3 Phút (Game)</button>
-            <button onclick="switchTab('discussion'); toggleMobileMenu();" class="text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800">Thảo luận & Tổng kết</button>
-            <button onclick="switchTab('teacher'); toggleMobileMenu();" class="text-left px-3 py-2 rounded-lg text-sm font-medium text-amber-400 bg-amber-500/10">Bảng Giáo Viên (Quản lý dữ liệu) 📊</button>
+            <button onclick="switchTab('discussion'); toggleMobileMenu();" class="text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800">Phiếu Thảo Luận Nhóm</button>
+            <button onclick="switchTab('teacher'); toggleMobileMenu();" class="text-left px-3 py-2 rounded-lg text-sm font-medium text-amber-400 bg-amber-500/10">Bảng Giáo Viên (Quản lý) 📊</button>
         </div>
     </header>
 
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        <!-- TAB 1: OVERVIEW -->
         <section id="tab-overview" class="tab-content space-y-8">
             <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
                 <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -79,11 +75,11 @@
                         Kiến tạo tương lai với <span class="bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-transparent">Chuyển đổi số & AI</span>
                     </h2>
                     <p class="text-slate-300 text-base sm:text-lg mb-8 leading-relaxed">
-                        Khám phá bức tranh học tập hiện đại, trải nghiệm các mô hình giáo dục thông minh, kết nối mã QR Padlet nhóm và tham gia Minigame Thách Đấu lớp học trực tiếp trong 3 phút để nhận phần thưởng!
+                        Khám phá bức tranh học tập hiện đại, trải nghiệm các mô hình giáo dục thông minh, hệ thống công cụ AI hỗ trợ học tập, thực hành sơ đồ tư duy nhóm qua Padlet và tham gia Minigame Thách Đấu lớp học trực tiếp trong 3 phút!
                     </p>
                     <div class="flex flex-wrap gap-4">
                         <button onclick="switchTab('quiz')" class="bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-600 text-white font-bold py-3 px-8 rounded-2xl shadow-lg transition transform active:scale-95">
-                            Bắt đầu khởi động 🚀
+                            Bắt đầu khởi động (Quiz 30s) 🚀
                         </button>
                         <button onclick="switchTab('game')" class="bg-gradient-to-r from-amber-500 to-rose-600 hover:from-amber-600 text-white font-bold py-3 px-8 rounded-2xl shadow-lg transition">
                             Vào Thách Đấu 3 Phút 🏆
@@ -92,25 +88,25 @@
                 </div>
             </div>
 
-            <!-- Direct QR Code Access Card for Students at Overview (Jumping directly to game) -->
+            <!-- Direct QR Code Access Card at Overview for Students -->
             <div class="bg-slate-900/90 border border-cyan-500/30 p-6 sm:p-8 rounded-3xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="space-y-3 flex-1">
-                    <span class="bg-cyan-500/20 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Dành cho học sinh quét vào thẳng phần mềm 📱</span>
-                    <h3 class="text-xl sm:text-2xl font-bold text-white">Quét Mã QR Vào Thẳng Trò Chơi Thách Đấu</h3>
+                    <span class="bg-cyan-500/20 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Mã QR Quét Vào Thẳng Phần Mềm 📱</span>
+                    <h3 class="text-xl sm:text-2xl font-bold text-white">Quét Bằng Điện Thoại Để Vào Thẳng Trò Chơi & Bài Giảng</h3>
                     <p class="text-slate-300 text-xs sm:text-sm">
-                        Thầy/cô chiếu màn hình này ở đầu giờ. Học sinh dùng camera điện thoại quét mã QR bên cạnh để mở phần mềm trực tiếp trên thiết bị cá nhân và chơi game ngay!
+                        Thầy/cô chiếu mã QR này ngay đầu giờ. Học sinh dùng camera điện thoại quét mã bên cạnh để mở phần mềm trực tiếp trên thiết bị cá nhân, làm quiz 30s và tham gia phần thách đấu game ngay lập tức!
                     </p>
-                    <div class="flex flex-col sm:flex-row gap-2 pt-1">
-                        <input type="text" id="customAppUrl" placeholder="Dán link web công khai (vd: https://...) để đổi QR" class="flex-1 bg-slate-950 border border-slate-700 px-3 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500">
-                        <button onclick="updateAppQrCode()" class="bg-cyan-500 hover:bg-cyan-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs transition">Cập nhật QR</button>
-                    </div>
-                    <div class="text-xs text-cyan-400 font-semibold bg-cyan-500/10 border border-cyan-500/20 px-3 py-1.5 rounded-xl inline-block">
-                        💡 <i>Mẹo: Đưa file lên <a href="https://drop.netlify.com" target="_blank" class="underline text-amber-300">Netlify Drop</a> lấy link dán vào đây để quét trên mọi mạng!</i>
+                    <div class="space-y-2 pt-2">
+                        <label class="text-xs text-slate-400 font-semibold block">Dán link web công khai (ví dụ: Netlify, Vercel) để tạo QR chính xác cho học sinh quét:</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="customUrlInput" placeholder="https://ten-bai-giang.netlify.app" class="flex-1 bg-slate-800 border border-slate-700 px-3 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500">
+                            <button onclick="updateCustomQr()" class="bg-cyan-500 hover:bg-cyan-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs transition">Đổi QR</button>
+                        </div>
                     </div>
                 </div>
                 <div class="bg-white p-4 rounded-2xl shadow-lg border-4 border-cyan-500 flex flex-col items-center shrink-0">
                     <img id="appQrImg" src="" alt="QR App Direct" class="w-36 h-36 object-contain">
-                    <span class="text-slate-900 text-xs font-bold mt-2">Quét vào trò chơi 🚀</span>
+                    <span class="text-slate-900 text-xs font-bold mt-2">Quét vào thẳng phần mềm 🚀</span>
                 </div>
             </div>
 
@@ -118,23 +114,22 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-slate-900/80 border border-slate-800 p-6 rounded-3xl shadow-xl">
                     <div class="w-12 h-12 bg-cyan-500/10 rounded-2xl flex items-center justify-center text-cyan-400 text-2xl mb-4">🧩</div>
-                    <h3 class="text-lg font-bold mb-2">1. Khởi động nhanh</h3>
-                    <p class="text-slate-400 text-sm">Thử tài nhanh nhạy qua trò chơi giải mã mật mã số.</p>
+                    <h3 class="text-lg font-bold mb-2">1. Khởi động 30 giây</h3>
+                    <p class="text-slate-400 text-sm">Thử tài nhanh nhạy qua 3 câu hỏi giới hạn thời gian.</p>
                 </div>
                 <div class="bg-slate-900/80 border border-slate-800 p-6 rounded-3xl shadow-xl">
-                    <div class="w-12 h-12 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-400 text-2xl mb-4">🧭</div>
-                    <h3 class="text-lg font-bold mb-2">2. Khám phá 3 mô hình</h3>
-                    <p class="text-slate-400 text-sm">Tìm hiểu Blended Learning, Học cá nhân hóa AI và Tự học chủ động.</p>
+                    <div class="w-12 h-12 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-400 text-2xl mb-4">🤖</div>
+                    <h3 class="text-lg font-bold mb-2">2. Hệ thống công cụ AI & Phụ Đạo</h3>
+                    <p class="text-slate-400 text-sm">Khám phá trợ lý AI, mô-đun Prompt và gỡ rối lập trình Tin học 10.</p>
                 </div>
                 <div class="bg-slate-900/80 border border-slate-800 p-6 rounded-3xl shadow-xl">
                     <div class="w-12 h-12 bg-amber-500/10 rounded-2xl flex items-center justify-center text-amber-400 text-2xl mb-4">🏆</div>
                     <h3 class="text-lg font-bold mb-2">3. Thi đấu 3 phút nhận thưởng</h3>
-                    <p class="text-slate-400 text-sm">Quét QR kết nối máy học sinh, thi đấu 3 phút vinh danh top điểm cao.</p>
+                    <p class="text-slate-400 text-sm">Kết nối máy học sinh, thi đấu vinh danh top điểm cao.</p>
                 </div>
             </div>
         </section>
 
-        <!-- TAB 2: QUIZ -->
         <section id="tab-quiz" class="tab-content hidden space-y-6">
             <div class="bg-slate-900/90 border border-slate-800 p-6 sm:p-8 rounded-3xl shadow-2xl max-w-3xl mx-auto space-y-6">
                 <!-- Name input for Quiz tracking -->
@@ -146,16 +141,20 @@
 
                 <div class="flex justify-between items-center border-b border-slate-800 pb-4">
                     <div>
-                        <span class="bg-indigo-500/20 text-indigo-400 text-xs font-bold px-3 py-1 rounded-full">Phần 1</span>
+                        <span class="bg-indigo-500/20 text-indigo-400 text-xs font-bold px-3 py-1 rounded-full">Phần 1 (Giới hạn 30s/câu)</span>
                         <h2 class="text-2xl font-bold mt-2">Trò chơi: Giải Mã Mật Mã Số 🧩</h2>
                     </div>
-                    <div id="quizProgress" class="text-sm font-semibold text-cyan-400">Câu 1 / 3</div>
+                    <div class="flex items-center gap-4">
+                        <div id="quizTimerDisplay" class="hidden bg-rose-500/20 border border-rose-500/40 text-rose-400 px-3 py-1 rounded-xl text-xs font-bold animate-pulse">⏱ <span id="quizTimerVal">30</span>s</div>
+                        <div id="quizProgress" class="text-sm font-semibold text-cyan-400">Câu 1 / 3</div>
+                        <!-- Exit Button for Quiz Game -->
+                        <button onclick="exitQuiz()" id="quizExitBtn" class="hidden bg-slate-800 hover:bg-slate-750 border border-slate-700 text-slate-300 hover:text-white px-3 py-1 rounded-xl text-xs font-semibold transition flex items-center gap-1">🚪 Thoát</button>
+                    </div>
                 </div>
                 <div id="quizContainer" class="space-y-6 opacity-50 pointer-events-none"></div>
             </div>
         </section>
 
-        <!-- TAB 3: MODELS -->
         <section id="tab-models" class="tab-content hidden space-y-8">
             <div class="text-center max-w-2xl mx-auto">
                 <h2 class="text-3xl font-bold mb-3">3 Mô Hình Học Tập Cốt Lõi</h2>
@@ -172,7 +171,7 @@
                             <li>🏫 <b>Trên lớp:</b> Thảo luận nhóm, tranh biện, dự án thực tế.</li>
                         </ul>
                     </div>
-                    <button onclick="openModal('Blended Learning', 'Kết hợp không gian số và lớp học trực tiếp giúp học sinh chủ động thời gian, giảm áp lực nghe giảng một chiều.')" class="w-full bg-slate-800 hover:bg-slate-700 py-2.5 rounded-xl font-semibold text-xs text-cyan-400 border border-slate-700 transition">Chi tiết</button>
+                    <button onclick="openBlendedModal()" class="w-full bg-slate-800 hover:bg-slate-700 py-2.5 rounded-xl font-semibold text-xs text-cyan-400 border border-slate-700 transition">Chi tiết các mô hình & Lợi ích</button>
                 </div>
                 <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-3xl shadow-xl flex flex-col justify-between">
                     <div>
@@ -184,7 +183,7 @@
                             <li>🤖 <b>Gia sư AI:</b> Phân tích điểm yếu, ra bài tập vừa sức.</li>
                         </ul>
                     </div>
-                    <button onclick="openModal('Personalized Learning', 'Sử dụng AI làm gia sư riêng để đo ni đóng giày cho năng lực từng em, không ai bị bỏ lại phía sau.')" class="w-full bg-slate-800 hover:bg-slate-700 py-2.5 rounded-xl font-semibold text-xs text-indigo-400 border border-slate-700 transition">Chi tiết</button>
+                    <button onclick="openPersonalizedModal()" class="w-full bg-slate-800 hover:bg-slate-700 py-2.5 rounded-xl font-semibold text-xs text-indigo-400 border border-slate-700 transition">Chi tiết trụ cột & AI</button>
                 </div>
                 <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-3xl shadow-xl flex flex-col justify-between">
                     <div>
@@ -196,47 +195,343 @@
                             <li>🛠 <b>Công cụ số:</b> NotebookLM, Notion để tổng hợp kiểm tra kiến thức.</li>
                         </ul>
                     </div>
-                    <button onclick="openModal('Self-Directed Learning', 'Biến học sinh thành nhà quản lý việc học của chính mình, rèn luyện sự tự chủ trong kỷ nguyên thông tin.')" class="w-full bg-slate-800 hover:bg-slate-700 py-2.5 rounded-xl font-semibold text-xs text-amber-400 border border-slate-700 transition">Chi tiết</button>
+                    <button onclick="openSelfDirectedModal()" class="w-full bg-slate-800 hover:bg-slate-700 py-2.5 rounded-xl font-semibold text-xs text-amber-400 border border-slate-700 transition">Chi tiết & Sổ tay AI</button>
                 </div>
             </div>
         </section>
 
-        <!-- TAB 4: PADLET & QR -->
+        <section id="tab-aitools" class="tab-content hidden space-y-8">
+            <div class="text-center max-w-2xl mx-auto">
+                <span class="bg-cyan-500/20 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Danh mục chuyên sâu</span>
+                <h2 class="text-3xl font-bold mt-2 mb-3">Công Cụ Trí Tuệ Nhân Tạo (AI) & Mô-đun Phụ Đạo</h2>
+                <p class="text-slate-400 text-sm">Tuyển tập các trợ lý AI hàng đầu và các mô-đun phụ đạo tương tác trực tiếp.</p>
+            </div>
+
+            <!-- AI-DRIVEN SELF LEARNING MODULE (SOCRATIC TUTOR) -->
+            <div class="bg-slate-950 border border-emerald-500/40 p-6 sm:p-8 rounded-3xl space-y-6 shadow-2xl">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl">🧭</span>
+                        <div>
+                            <h3 class="font-bold text-emerald-400 text-lg sm:text-xl">AI Tự Học (AI-Driven Self-Learning): Làm Chủ Tri Thức 24/7</h3>
+                            <p class="text-xs text-slate-400">Chuyển từ tiếp thu bị động sang chủ động tư duy cùng trợ lý ảo thông minh.</p>
+                        </div>
+                    </div>
+                    <span class="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30 hidden sm:inline-block">Socratic Method</span>
+                </div>
+
+                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-3">
+                    <h4 class="font-bold text-amber-400 text-sm flex items-center gap-2"><span>🌟</span> Vai trò cốt lõi của AI trong việc tự học</h4>
+                    <p class="text-slate-300 text-xs sm:text-sm">AI không đơn thuần là công cụ đưa ra đáp án, mà là người đồng hành phát triển tư duy độc lập qua 4 cách thức:</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700 space-y-1">
+                            <span class="font-bold text-cyan-400 block">1. Gia sư gợi mở (Socratic Tutor)</span>
+                            <p class="text-slate-400">Đặt câu hỏi dẫn dắt để học sinh tự suy luận tìm ra bản chất thay vì đưa đáp án thẳng thừng.</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700 space-y-1">
+                            <span class="font-bold text-indigo-400 block">2. Chuyển đổi học liệu thông minh</span>
+                            <p class="text-slate-400">Biến sách giáo khoa hoặc tài liệu dài thành sơ đồ tư duy, bảng so sánh hoặc câu hỏi ôn tập.</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700 space-y-1">
+                            <span class="font-bold text-emerald-400 block">3. Phản hồi tức thì & Sửa lỗi</span>
+                            <p class="text-slate-400">Chỉ ra đoạn code bị lỗi, hướng dẫn cách sửa hoặc phân tích ngữ pháp theo thời gian thực.</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700 space-y-1">
+                            <span class="font-bold text-amber-400 block">4. Đối tác luyện tập 1-1</span>
+                            <p class="text-slate-400">Đóng vai phản biện, luyện giao tiếp ngoại ngữ hoặc kiểm tra từ vựng trực tuyến.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-3">
+                    <h4 class="font-bold text-cyan-400 text-sm flex items-center gap-2"><span>💡</span> Mẫu câu lệnh (Prompt) Socratic chuẩn giúp tự học hiệu quả</h4>
+                    <p class="text-slate-300 text-xs sm:text-sm">Áp dụng công thức dưới đây khi giao tiếp với AI để không bị phụ thuộc vào việc chép bài:</p>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-emerald-500/30 text-xs text-slate-200 font-mono relative space-y-2">
+                        <p id="socraticPromptText" class="italic text-emerald-300">"Bạn hãy đóng vai là một người bạn học cùng nhóm kiên nhẫn. Tôi đang học về [chủ đề Tin học/Lịch sử/Vật lý...], nhưng chưa hiểu phần [nội dung cụ thể]. Nhiệm vụ của bạn: Hãy giải thích bằng một ví dụ thực tế, sau đó đặt cho tôi 1 câu hỏi trắc nghiệm hoặc bài tập nhỏ để kiểm tra xem tôi đã hiểu chưa. Tuyệt đối không giải sẵn bài tập mà hãy để tôi tự suy luận."</p>
+                        <button onclick="copySocraticPrompt()" class="mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 cursor-pointer">
+                            <span>📋</span> Sao chép mẫu Prompt này
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROMPT REMEDIAL MODULE -->
+            <div class="bg-slate-950 border border-cyan-500/40 p-6 sm:p-8 rounded-3xl space-y-6 shadow-2xl">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl">💡</span>
+                        <div>
+                            <h3 class="font-bold text-cyan-400 text-lg sm:text-xl">Mô-đun Phụ Đạo: Vỡ Lòng Về Câu Lệnh AI (Prompt Căn Bản)</h3>
+                            <p class="text-xs text-slate-400">Dành cho học sinh còn lúng túng, chưa biết cách giao tiếp hiệu quả với trợ lý ảo.</p>
+                        </div>
+                    </div>
+                    <span class="bg-cyan-500/20 text-cyan-300 text-xs font-bold px-3 py-1 rounded-full border border-cyan-500/30 hidden sm:inline-block">JSON Data Driven</span>
+                </div>
+
+                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-3">
+                    <h4 class="font-bold text-amber-400 text-sm flex items-center gap-2"><span>📖</span> Bước 1: Lý thuyết siêu ngắn & Ví dụ thực tế (Dưới 30 giây đọc)</h4>
+                    <p class="text-slate-300 text-xs sm:text-sm">Bí kíp <b>"3 bước"</b> đặt câu lệnh (Prompt) chuẩn xác cho AI:</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                        <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700 space-y-1">
+                            <span class="font-bold text-cyan-400 block">1. Bạn là ai? (Role)</span>
+                            <p class="text-slate-400">Gán vai trò cho AI: <br><i>"Bạn là một hướng dẫn viên du lịch..."</i></p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700 space-y-1">
+                            <span class="font-bold text-indigo-400 block">2. Bạn làm gì? (Task)</span>
+                            <p class="text-slate-400">Nhiệm vụ cụ thể: <br><i>"...hãy giải thích khái niệm Địa đạo Vịnh Mốc..."</i></p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700 space-y-1">
+                            <span class="font-bold text-emerald-400 block">3. Kết quả ra sao? (Format)</span>
+                            <p class="text-slate-400">Định dạng đầu ra: <br><i>"...bằng ngôn ngữ đơn giản cho học sinh lớp 10."</i></p>
+                        </div>
+                    </div>
+                    <!-- Concrete Unified Example Box -->
+                    <div class="bg-cyan-950/40 border border-cyan-500/30 p-3.5 rounded-xl text-xs space-y-1 mt-2">
+                        <span class="font-bold text-cyan-300 block">✨ Ví dụ câu lệnh hoàn chỉnh kết hợp cả 3 bước:</span>
+                        <p class="text-slate-200 italic font-mono">"Bạn là một hướng dẫn viên du lịch, hãy giải thích khái niệm Địa đạo Vịnh Mốc bằng ngôn ngữ đơn giản cho học sinh lớp 10."</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-4">
+                    <h4 class="font-bold text-cyan-400 text-sm flex items-center gap-2"><span>🎯</span> Bước 2 & 3: Thử thách sắp xếp thẻ lệnh AI</h4>
+                    <p class="text-slate-300 text-xs sm:text-sm">Đề bài: Sắp xếp lại các thành phần sau theo đúng thứ tự cấu trúc chuẩn để AI giải thích bài học dễ hiểu nhất:</p>
+                    <div id="promptCardsContainer" class="space-y-2"></div>
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <button onclick="checkPromptSolution()" class="bg-cyan-500 hover:bg-cyan-600 text-slate-950 font-bold px-6 py-2.5 rounded-xl text-xs sm:text-sm transition shadow">Kiểm tra kết quả 🚀</button>
+                        <button onclick="resetPromptPuzzle()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold px-4 py-2.5 rounded-xl text-xs sm:text-sm border border-slate-700 transition">Sắp xếp lại</button>
+                    </div>
+                    <div id="promptFeedbackBox" class="hidden p-4 rounded-xl text-xs sm:text-sm font-semibold"></div>
+                </div>
+            </div>
+
+            <!-- JSON-DRIVEN REMEDIAL MODULE: TIN HỌC 10 IF...ELSE -->
+            <div class="bg-slate-950 border border-indigo-500/40 p-6 sm:p-8 rounded-3xl space-y-6 shadow-2xl">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl">💻</span>
+                        <div>
+                            <h3 id="jsonModuleTitle" class="font-bold text-indigo-400 text-lg sm:text-xl">Mô-đun Phụ Đạo Tin Học 10: Gỡ rối cấu trúc rẽ nhánh if...else</h3>
+                            <p class="text-xs text-slate-400">Tải trực tiếp từ đối tượng JSON chuẩn để rèn luyện tư duy lập trình.</p>
+                        </div>
+                    </div>
+                    <span class="bg-indigo-500/20 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full border border-indigo-500/30 hidden sm:inline-block">JSON Object</span>
+                </div>
+
+                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-3">
+                    <h4 class="font-bold text-amber-400 text-sm flex items-center gap-2"><span>📖</span> Lý thuyết cốt lõi (Micro-lesson)</h4>
+                    <p id="jsonConceptText" class="text-slate-300 text-xs sm:text-sm">Câu lệnh điều kiện dùng để máy tính ra quyết định.</p>
+                    <p id="jsonAnalogyText" class="text-cyan-300 text-xs italic">💡 Thực tế: Giống như rẽ trái hay rẽ phải khi gặp ngã ba.</p>
+                </div>
+
+                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-4">
+                    <h4 class="font-bold text-indigo-400 text-sm flex items-center gap-2"><span>🎯</span> Thử thách gỡ rối code Python</h4>
+                    <p id="jsonQuestionText" class="text-slate-300 text-xs sm:text-sm font-medium">Đoạn code Python sau thiếu ký tự nào ở dòng chứa chữ else?</p>
+                    
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-xs text-emerald-400 overflow-x-auto">
+<pre id="jsonCodeSnippet">if diem >= 5:
+    print('Đạt')
+else
+    print('Chưa đạt')</pre>
+                    </div>
+
+                    <div id="jsonOptionsContainer" class="space-y-2 pt-2">
+                        <!-- Populated via JSON data -->
+                    </div>
+
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <button onclick="checkJsonRemedialAnswer()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-2.5 rounded-xl text-xs sm:text-sm transition shadow">Kiểm tra đáp án 🚀</button>
+                    </div>
+
+                    <div id="jsonFeedbackBox" class="hidden p-4 rounded-xl text-xs sm:text-sm font-semibold"></div>
+                </div>
+            </div>
+
+            <!-- Existing AI Tools Functional Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Group 1 -->
+                <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-3xl shadow-xl space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-cyan-500/10 rounded-xl flex items-center justify-center text-cyan-400 text-xl font-bold">1</div>
+                        <div>
+                            <h3 class="text-lg font-bold text-cyan-400">Trợ lý học tập tổng quát & Giải đáp kiến thức</h3>
+                            <p class="text-xs text-slate-400">Gia sư riêng 24/7 giải thích khái niệm, tóm tắt và gợi mở tư duy.</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3 pt-2 border-t border-slate-800 text-xs sm:text-sm">
+                        <div class="bg-slate-800/60 p-3.5 rounded-xl border border-slate-700/50">
+                            <span class="font-bold text-white">🔹 Google Gemini:</span>
+                            <span class="text-slate-300"> Tổng hợp thông tin, viết văn bản, dịch thuật, giải toán/khoa học và hỗ trợ đa phương thức.</span>
+                        </div>
+                        <div class="bg-slate-800/60 p-3.5 rounded-xl border border-slate-700/50">
+                            <span class="font-bold text-white">🔹 ChatGPT (OpenAI):</span>
+                            <span class="text-slate-300"> Lên ý tưởng bài viết, giải thích chi tiết các bước bài tập phức tạp và luyện tranh luận.</span>
+                        </div>
+                        <div class="bg-slate-800/60 p-3.5 rounded-xl border border-slate-700/50">
+                            <span class="font-bold text-white">🔹 Claude (Anthropic):</span>
+                            <span class="text-slate-300"> Xử lý văn bản dài, phân tích tài liệu văn học hoặc khoa học xã hội độ chính xác cao.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 2 -->
+                <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-3xl shadow-xl space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-400 text-xl font-bold">2</div>
+                        <div>
+                            <h3 class="text-lg font-bold text-indigo-400">Nghiên cứu chuyên sâu & Xử lý tài liệu</h3>
+                            <p class="text-xs text-slate-400">Biến sách giáo khoa thành trợ lý học tập thu nhỏ.</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3 pt-2 border-t border-slate-800 text-xs sm:text-sm">
+                        <div class="bg-slate-800/60 p-3.5 rounded-xl border border-slate-700/50">
+                            <span class="font-bold text-white">🔹 NotebookLM:</span>
+                            <span class="text-slate-300"> Tải sách giáo khoa, tài liệu để AI tự động tạo ghi chú, câu hỏi ôn tập, FAQ hoặc tóm tắt âm thanh (Audio Overview).</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 3 -->
+                <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-3xl shadow-xl space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center text-emerald-400 text-xl font-bold">3</div>
+                        <div>
+                            <h3 class="text-lg font-bold text-emerald-400">Hỗ trợ Toán học & Khoa học tự nhiên (STEM)</h3>
+                            <p class="text-xs text-slate-400">Giải quyết bài toán từ cơ bản đến nâng cao và trực quan hóa.</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3 pt-2 border-t border-slate-800 text-xs sm:text-sm">
+                        <div class="bg-slate-800/60 p-3.5 rounded-xl border border-slate-700/50">
+                            <span class="font-bold text-white">🔹 Photomath / Microsoft Math Solver:</span>
+                            <span class="text-slate-300"> Chụp ảnh đề bài toán hiển thị từng bước giải chi tiết thay vì chỉ đáp án.</span>
+                        </div>
+                        <div class="bg-slate-800/60 p-3.5 rounded-xl border border-slate-700/50">
+                            <span class="font-bold text-white">🔹 Wolfram Alpha:</span>
+                            <span class="text-slate-300"> Công cụ tính toán thông minh tra cứu công thức, đồ thị và dữ liệu khoa học cấp cao.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 4 & 5 -->
+                <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-3xl shadow-xl space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-400 text-xl font-bold">4 & 5</div>
+                        <div>
+                            <h3 class="text-lg font-bold text-amber-400">Luyện Ngoại Ngữ & Flashcard Ôn Thi</h3>
+                            <p class="text-xs text-slate-400">Phát âm chuẩn xác và ghi nhớ kiến thức cốt lõi nhanh chóng.</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3 pt-2 border-t border-slate-800 text-xs sm:text-sm">
+                        <div class="bg-slate-800/60 p-3.5 rounded-xl border border-slate-700/50">
+                            <span class="font-bold text-white">🔹 ELSA Speak & Duolingo AI:</span>
+                            <span class="text-slate-300"> Chấm điểm phát âm từng từ, hội thoại tương tác mô phỏng người thật.</span>
+                        </div>
+                        <div class="bg-slate-800/60 p-3.5 rounded-xl border border-slate-700/50">
+                            <span class="font-bold text-white">🔹 Quizlet & Quizizz AI:</span>
+                            <span class="text-slate-300"> Tự động tạo flashcard và bộ câu hỏi trắc nghiệm ôn thi từ tài liệu học tập.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="tab-padlet" class="tab-content hidden space-y-6">
-            <div class="bg-slate-900/90 border border-slate-800 p-6 sm:p-10 rounded-3xl shadow-2xl max-w-4xl mx-auto space-y-8">
+            <div class="bg-slate-900/90 border border-slate-800 p-6 sm:p-10 rounded-3xl shadow-2xl max-w-5xl mx-auto space-y-8">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-slate-800 pb-8">
                     <div>
                         <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">Thực hành nhóm</span>
-                        <h2 class="text-2xl font-bold mt-2">Quét Mã QR & Hướng Dẫn Padlet 📱</h2>
-                        <p class="text-slate-400 text-sm mt-1">Dùng điện thoại quét mã QR để truy cập bảng thảo luận hoặc bản đồ tư duy nhóm.</p>
+                        <h2 class="text-2xl font-bold mt-2">Hướng Dẫn Sử Dụng Padlet 📱</h2>
+                        <p class="text-slate-400 text-sm mt-1">Dùng điện thoại quét mã QR hoặc truy cập bảng thảo luận bản đồ tư duy nhóm.</p>
                     </div>
                     <div class="bg-white p-4 rounded-2xl shadow-xl border-4 border-cyan-500/35 flex flex-col items-center">
                         <img id="padletQrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://padlet.com" alt="QR Code Padlet" class="w-36 h-36 object-contain" crossorigin="anonymous">
                         <span class="text-slate-900 text-xs font-bold mt-2">Quét mở Padlet</span>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-slate-800/60 border border-slate-700 p-5 rounded-2xl space-y-2">
-                        <h3 class="font-bold text-cyan-400 text-base">1️⃣ Hướng dẫn học sinh tham gia</h3>
-                        <p class="text-slate-300 text-sm leading-relaxed">
-                            - <b>Bước 1:</b> Mở camera điện thoại quét mã QR bên trên.<br>
-                            - <b>Bước 2:</b> Nhấn dấu <b>(+)</b> hoặc nhấp đúp vào bảng để đăng bài.<br>
-                            - <b>Bước 3:</b> Ghi rõ tên nhóm/cá nhân và ý kiến thảo luận.
-                        </p>
+
+                <!-- Interactive Padlet Canvas Simulator / Visual Mockup Preview -->
+                <div class="bg-slate-950 border border-cyan-500/40 p-6 rounded-3xl space-y-4 shadow-2xl relative overflow-hidden">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl">🎨</span>
+                            <div>
+                                <h3 class="font-bold text-cyan-400 text-base">Mô Phỏng Động: Bản Đồ Tư Duy Nhóm Trên Padlet (Canvas)</h3>
+                                <p class="text-xs text-slate-400">Hình ảnh mô phỏng trực quan cách các nhóm kết nối ý tưởng từ tâm ra các nhánh.</p>
+                            </div>
+                        </div>
+                        <span class="bg-cyan-500/20 text-cyan-300 text-xs px-3 py-1 rounded-full border border-cyan-500/30">Live Canvas View</span>
                     </div>
-                    <div class="bg-slate-800/60 border border-slate-700 p-5 rounded-2xl space-y-2">
-                        <h3 class="font-bold text-cyan-400 text-base">2️⃣ Tạo Sơ đồ tư duy nhóm (Canvas)</h3>
+
+                    <!-- Visual Mind Map Simulator Container -->
+                    <div class="relative w-full h-80 bg-slate-900/90 rounded-2xl border border-slate-800 p-4 flex items-center justify-center overflow-hidden">
+                        <!-- SVG Connection Arrows -->
+                        <svg class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="50%" y1="50%" x2="25%" y2="28%" stroke="#06b6d4" stroke-width="2.5" stroke-dasharray="5,3" />
+                            <line x1="50%" y1="50%" x2="50%" y2="22%" stroke="#6366f1" stroke-width="2.5" />
+                            <line x1="50%" y1="50%" x2="75%" y2="28%" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="5,3" />
+                        </svg>
+
+                        <!-- Central Node -->
+                        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-cyan-600 to-indigo-600 border-2 border-cyan-300 text-white p-3.5 rounded-2xl shadow-2xl text-center z-10 w-48 animate-pulse">
+                            <div class="text-xs uppercase font-bold text-cyan-200">Ô Trung Tâm</div>
+                            <div class="text-sm font-extrabold">🎯 Nhóm 1: 3 Mô Hình</div>
+                        </div>
+
+                        <!-- Left Node (Blended) -->
+                        <div class="absolute left-[10%] sm:left-[15%] top-[15%] bg-slate-800 border border-cyan-500/50 p-3 rounded-2xl shadow-lg w-40 text-center z-10">
+                            <div class="text-xs text-cyan-400 font-bold">🔄 Nhánh 1</div>
+                            <div class="text-xs font-semibold text-white mt-0.5">Blended Learning</div>
+                            <div class="text-[10px] text-slate-400 mt-1">Học kết hợp online & lớp</div>
+                        </div>
+
+                        <!-- Top Node (Personalized) -->
+                        <div class="absolute left-1/2 -translate-x-1/2 top-[5%] bg-slate-800 border border-indigo-500/50 p-3 rounded-2xl shadow-lg w-40 text-center z-10">
+                            <div class="text-xs text-indigo-400 font-bold">🎯 Nhánh 2</div>
+                            <div class="text-xs font-semibold text-white mt-0.5">Cá Nhân Hóa AI</div>
+                            <div class="text-[10px] text-slate-400 mt-1">Gia sư AI riêng biệt</div>
+                        </div>
+
+                        <!-- Right Node (Self-Directed) -->
+                        <div class="absolute right-[10%] sm:right-[15%] top-[15%] bg-slate-800 border border-amber-500/50 p-3 rounded-2xl shadow-lg w-40 text-center z-10">
+                            <div class="text-xs text-amber-400 font-bold">🧭 Nhánh 3</div>
+                            <div class="text-xs font-semibold text-white mt-0.5">Tự Học Chủ Động</div>
+                            <div class="text-[10px] text-slate-400 mt-1">Quản lý tri thức số</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Step-by-Step Student Guide for Creating Items & Mindmap Practice -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-800/70 border border-slate-700 p-6 rounded-2xl space-y-3">
+                        <div class="flex items-center gap-2 text-cyan-400 font-bold text-base">
+                            <span class="text-xl">🛠️</span>
+                            <h3>Hướng dẫn học sinh tạo các mục trên Padlet</h3>
+                        </div>
+                        <ul class="space-y-2 text-slate-300 text-sm leading-relaxed">
+                            <li><b>Bước 1 (Mở bảng):</b> Quét mã QR nhóm hoặc truy cập đường link giáo viên cung cấp.</li>
+                            <li><b>Bước 2 (Tạo thẻ mục/nhánh):</b> Nhấn vào nút dấu cộng hồng góc dưới bên phải hoặc nhấp đúp vào bất cứ đâu trên màn hình Canvas.</li>
+                            <li><b>Bước 3 (Nhập nội dung):</b> Ghi rõ <i>Tiêu đề chuyên mục</i> (Ví dụ: Mô hình Blended Learning) và phần mô tả ý chính.</li>
+                            <li><b>Bước 4 (Định dạng màu sắc):</b> Chọn màu sắc nhãn dán khác nhau cho từng nhánh để phân biệt rõ ràng.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-800/70 border border-slate-700 p-6 rounded-2xl space-y-3">
+                        <div class="flex items-center gap-2 text-amber-400 font-bold text-base">
+                            <span class="text-xl">🎯</span>
+                            <h3>Thử thách thực hành ngay tại lớp (2 phút)</h3>
+                        </div>
                         <p class="text-slate-300 text-sm leading-relaxed">
-                            - Chọn định dạng <b>Canvas (Bố cục Bản đồ)</b>.<br>
-                            - Tạo các nhánh chính và phụ.<br>
-                            - Chọn <b>(...)</b> -> <b>Kết nối bài đăng</b> để vẽ mũi tên sơ đồ tư duy thời gian thực.
+                            Mỗi nhóm hãy thực hành ngay trên điện thoại/máy tính với yêu cầu sau:
                         </p>
+                        <div class="bg-slate-900/80 p-3.5 rounded-xl border border-amber-500/30 text-xs text-slate-200 space-y-1.5">
+                            <p>1️⃣ Tạo <b>Ô Trung Tâm</b> ghi tên nhóm và chủ đề (Ví dụ: <i>Nhóm 1 - 3 Mô hình học tập</i>).</p>
+                            <p>2️⃣ Tạo 3 ô con xung quanh ứng với 3 mô hình đã học.</p>
+                            <p>3️⃣ Bấm vào <b>(...)</b> trên ô con -> Chọn <b>Kết nối với bài đăng này</b> để vẽ mũi tên sơ đồ tư duy kết nối từ tâm ra các nhánh!</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- TAB 5: MINIGAME & CLASSROOM COMPETITION -->
         <section id="tab-game" class="tab-content hidden space-y-6">
             <div class="max-w-4xl mx-auto flex flex-col items-center space-y-6">
                 
@@ -308,7 +603,7 @@
                             <span id="scoreVal" class="text-cyan-400 font-bold text-lg">0</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <span>❤️ Mạng:</span>
+                            <span>❤ Mạng:</span>
                             <span id="livesVal" class="text-rose-400 font-bold text-lg">3</span>
                         </div>
                     </div>
@@ -340,44 +635,147 @@
             </div>
         </section>
 
-        <!-- TAB 6: DISCUSSION -->
         <section id="tab-discussion" class="tab-content hidden space-y-6">
-            <div class="bg-slate-900/90 border border-slate-800 p-6 sm:p-10 rounded-3xl shadow-2xl max-w-3xl mx-auto space-y-6">
-                <div>
-                    <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-3 py-1 rounded-full">Phần 3</span>
-                    <h2 class="text-2xl font-bold mt-2">Thảo luận & Tổng kết 💬</h2>
-                    <p class="text-slate-400 text-sm mt-1">Chia sẻ quan điểm của bạn về trí tuệ nhân tạo và giáo dục.</p>
+            <div class="bg-slate-900/90 border border-slate-800 p-6 sm:p-10 rounded-3xl shadow-2xl max-w-4xl mx-auto space-y-8">
+                
+                <div class="text-center border-b border-slate-800 pb-6 space-y-2">
+                    <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Phiếu Thảo Luận Nhóm Trực Tuyến</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Trí Tuệ Nhân Tạo (AI) và Giới Hạn Của Con Người</h2>
+                    <p class="text-slate-400 text-sm">Thảo luận cùng các thành viên trong nhóm và điền trực tiếp vào phiếu học tập dưới đây để gửi về máy giáo viên.</p>
                 </div>
-                <div class="bg-slate-800/60 border border-slate-700 p-6 rounded-2xl space-y-3">
-                    <h3 class="font-bold text-cyan-400 text-base">Câu hỏi thảo luận chính:</h3>
-                    <p class="text-slate-200 text-sm italic font-medium">
-                        "Theo các em, AI có thể thay thế hoàn toàn vai trò suy luận và tư duy sáng tạo của con người hay không? Vì sao?"
-                    </p>
+
+                <!-- 5-Minute Discussion Timer Box -->
+                <div class="bg-slate-800/80 border border-amber-500/40 p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl">⏱️</span>
+                        <div>
+                            <h4 class="font-bold text-amber-400 text-sm sm:text-base">Thời gian thảo luận nhóm (5 phút)</h4>
+                            <p class="text-xs text-slate-400">Khi hết giờ, hệ thống sẽ tự động nộp phiếu của nhóm về máy giáo viên.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div id="discussionTimerVal" class="text-rose-400 font-extrabold text-2xl bg-slate-900 px-5 py-2 rounded-xl border border-slate-700 tracking-wider">05:00</div>
+                        <button onclick="startDiscussionTimer()" id="startDiscussionTimerBtn" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm transition shadow">Bắt đầu đếm (5 phút) 🚀</button>
+                    </div>
                 </div>
-                <div class="space-y-4">
-                    <input type="text" id="discStudentName" placeholder="Tên học sinh / Nhóm..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500">
-                    <textarea id="studentAnswer" rows="4" placeholder="Nhập suy nghĩ hoặc câu trả lời của em vào đây..." class="w-full bg-slate-800 border border-slate-700 rounded-2xl p-4 text-sm text-white focus:outline-none focus:border-cyan-500 transition"></textarea>
-                    <button onclick="submitDiscussion()" class="bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-600 text-white font-bold py-3 px-8 rounded-xl shadow transition">
-                        Gửi câu trả lời về máy Giáo viên
-                    </button>
+
+                <div class="space-y-6">
+                    <!-- Group Info Header -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-800/60 p-5 rounded-2xl border border-slate-700">
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold text-cyan-400 block">Tên nhóm của em:</label>
+                            <input type="text" id="groupNameInput" placeholder="Ví dụ: Nhóm 1 - Tự hào..." class="w-full bg-slate-900 border border-slate-700 px-4 py-2.5 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-500">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold text-indigo-400 block">Danh sách thành viên:</label>
+                            <input type="text" id="groupMembersInput" placeholder="Nguyễn Văn A, Trần Thị B..." class="w-full bg-slate-900 border border-slate-700 px-4 py-2.5 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500">
+                        </div>
+                    </div>
+
+                    <!-- Big Question Box -->
+                    <div class="bg-indigo-950/40 border border-indigo-500/40 p-5 rounded-2xl space-y-2">
+                        <span class="text-xs font-bold text-indigo-300 uppercase tracking-wider">Câu hỏi lớn (Big Question)</span>
+                        <p class="text-slate-100 font-bold text-base sm:text-lg italic">
+                            "Theo các em, AI có thể thay thế hoàn toàn vai trò suy luận và tư duy sáng tạo của con người hay không? Vì sao?"
+                        </p>
+                    </div>
+
+                    <!-- Part 1 -->
+                    <div class="bg-slate-800/50 border border-slate-700/80 p-5 rounded-2xl space-y-4">
+                        <div class="font-bold text-cyan-400 text-sm flex items-center gap-2">
+                            <span>📌</span> PHẦN 1: MỨC ĐỘ NHẬN BIẾT & THÔNG HIỂU (Nhìn nhận vấn đề)
+                        </div>
+                        <div class="space-y-3 text-xs sm:text-sm">
+                            <div class="space-y-1.5">
+                                <label class="text-slate-300 font-medium block">1. AI hiện nay có thể làm rất giỏi những việc gì? (Ví dụ: viết văn, tính toán, vẽ tranh, lập trình...)</label>
+                                <textarea id="worksheetPart1_1" rows="2" placeholder="Ý kiến của nhóm..." class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl text-slate-200 focus:outline-none focus:border-cyan-500"></textarea>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-slate-300 font-medium block">2. Theo em, điểm khác biệt cơ bản nhất giữa một "cỗ máy AI" được lập trình sẵn và một "con người bằng xương bằng thịt" là gì?</label>
+                                <textarea id="worksheetPart1_2" rows="2" placeholder="Ý kiến của nhóm..." class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl text-slate-200 focus:outline-none focus:border-cyan-500"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part 2 -->
+                    <div class="bg-slate-800/50 border border-slate-700/80 p-5 rounded-2xl space-y-4">
+                        <div class="font-bold text-indigo-400 text-sm flex items-center gap-2">
+                            <span>🔍</span> PHẦN 2: MỨC ĐỘ PHÂN TÍCH (Đào sâu bản chất)
+                        </div>
+                        <div class="space-y-3 text-xs sm:text-sm">
+                            <div class="space-y-1.5">
+                                <label class="text-slate-300 font-medium block">3. Về suy luận: AI đưa ra câu trả lời dựa trên dữ liệu cũ và xác suất thống kê. Theo nhóm, điều này khác biệt thế nào với khả năng phán đoán dựa trên trải nghiệm thực tế và cảm xúc của con người?</label>
+                                <textarea id="worksheetPart2_1" rows="3" placeholder="Phân tích của nhóm..." class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl text-slate-200 focus:outline-none focus:border-indigo-500"></textarea>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-slate-300 font-medium block">4. Về sáng tạo: Những bức tranh hoặc bài thơ do AI tạo ra có thực sự gọi là "sáng tạo nguyên bản" không, hay chỉ là sự nhào nặn từ dữ liệu của con người? Hãy đưa ra một ví dụ chứng minh.</label>
+                                <textarea id="worksheetPart2_2" rows="3" placeholder="Phân tích của nhóm..." class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl text-slate-200 focus:outline-none focus:border-indigo-500"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part 3 -->
+                    <div class="bg-slate-800/50 border border-slate-700/80 p-5 rounded-2xl space-y-4">
+                        <div class="font-bold text-amber-400 text-sm flex items-center gap-2">
+                            <span>🎯</span> PHẦN 3: MỨC ĐỘ ĐÁNH GIÁ & SÁNG TẠO (Đưa ra quan điểm và hành động)
+                        </div>
+                        <div class="space-y-4 text-xs sm:text-sm">
+                            <div class="space-y-2">
+                                <label class="text-slate-300 font-semibold block">5. Khẳng định của nhóm về việc AI có thể thay thế hoàn toàn vai trò suy luận và tư duy sáng tạo của con người hay không:</label>
+                                <div class="flex items-center gap-6 pt-1">
+                                    <label class="flex items-center gap-2 cursor-pointer bg-slate-900 px-4 py-2.5 rounded-xl border border-slate-700 hover:border-cyan-500">
+                                        <input type="radio" name="aiReplaceChoice" value="CÓ" class="text-cyan-500 focus:ring-cyan-400 h-4 w-4">
+                                        <span class="font-bold text-rose-400">CÓ THỂ</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer bg-slate-900 px-4 py-2.5 rounded-xl border border-slate-700 hover:border-cyan-500">
+                                        <input type="radio" name="aiReplaceChoice" value="KHÔNG" checked class="text-cyan-500 focus:ring-cyan-400 h-4 w-4">
+                                        <span class="font-bold text-emerald-400">KHÔNG THỂ</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-slate-300 font-medium block">→ Lý do cốt lõi của nhóm:</label>
+                                <textarea id="worksheetPart3_reason" rows="2" placeholder="Giải thích ngắn gọn lý do..." class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl text-slate-200 focus:outline-none focus:border-amber-500"></textarea>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-slate-300 font-medium block">6. Thông điệp hành động: Trong kỷ nguyên AI phát triển mạnh mẽ, học sinh cần rèn luyện những kỹ năng gì để không bị cỗ máy thay thế?</label>
+                                <textarea id="worksheetPart3_action" rows="2" placeholder="Đề xuất của nhóm..." class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl text-slate-200 focus:outline-none focus:border-amber-500"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center pt-2">
+                        <button onclick="submitWorksheet(false)" class="bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-600 text-white font-bold py-3.5 px-10 rounded-2xl shadow-xl transition transform active:scale-95 cursor-pointer text-sm sm:text-base">
+                            Gửi Phiếu Thảo Luận Về Máy Giáo Viên 🚀
+                        </button>
+                    </div>
+
+                    <div id="worksheetResult" class="hidden bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-2xl text-emerald-300 text-sm text-center font-semibold">
+                        ✅ Đã gửi phiếu học tập của nhóm về máy giáo viên thành công!
+                    </div>
                 </div>
-                <div id="discussionResult" class="hidden bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-2xl text-emerald-300 text-sm">
-                    ✅ Đã gửi câu trả lời về máy giáo viên thành công! <b>AI không thay thế con người, nhưng con người biết dùng AI sẽ thay thế người không dùng.</b>
-                </div>
+
             </div>
         </section>
 
-        <!-- TAB 7: TEACHER DASHBOARD (BẢNG QUẢN LÝ CỦA GIÁO VIÊN) -->
         <section id="tab-teacher" class="tab-content hidden space-y-8">
-            <div class="bg-gradient-to-r from-amber-500/10 via-slate-900 to-slate-900 border border-amber-500/30 p-6 sm:p-8 rounded-3xl shadow-2xl">
+            <div class="bg-gradient-to-r from-amber-500/10 via-slate-900 to-slate-900 border border-amber-500/30 p-6 sm:p-8 rounded-3xl shadow-2xl space-y-4">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <span class="text-3xl">📊</span>
                         <div>
                             <h2 class="text-2xl font-bold text-amber-400">Bảng Quản Lý Dữ Liệu Giáo Viên</h2>
-                            <p class="text-slate-400 text-sm">Toàn bộ điểm số trò chơi, kết quả quiz và câu trả lời thảo luận từ máy học sinh được đồng bộ về đây theo thời gian thực.</p>
+                            <p class="text-slate-400 text-sm">Toàn bộ điểm số trò chơi, kết quả quiz (có thời gian làm bài) và phiếu thảo luận nhóm được đồng bộ thời gian thực.</p>
                         </div>
                     </div>
+                </div>
+                <!-- Teacher Insight / Core Quote Banner -->
+                <div class="bg-slate-950/80 border border-indigo-500/40 p-4 rounded-2xl flex items-center gap-3">
+                    <span class="text-2xl">🎓</span>
+                    <p class="text-slate-200 text-xs sm:text-sm italic font-medium leading-relaxed">
+                        "AI là bản đồ tóm tắt những gì nhân loại đã đi qua, nhưng người lái xe quyết định hướng đi tiếp theo vẫn là con người."
+                    </p>
                 </div>
             </div>
 
@@ -397,7 +795,7 @@
                 <!-- Quiz Submissions -->
                 <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-3xl shadow-xl space-y-4">
                     <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                        <h3 class="font-bold text-cyan-400 text-base flex items-center gap-2"><span>🧩</span> Kết Quả Khởi Động (Quiz)</h3>
+                        <h3 class="font-bold text-cyan-400 text-base flex items-center gap-2"><span>🧩</span> Kết Quả Khởi Động (Quiz 30s)</h3>
                         <span class="text-xs text-slate-400">Tối đa 3 điểm</span>
                     </div>
                     <div id="teacherQuizList" class="space-y-2 max-h-80 overflow-y-auto pr-2">
@@ -406,27 +804,26 @@
                 </div>
             </div>
 
-            <!-- Discussion Submissions Full Width -->
+            <!-- Discussion / Worksheet Submissions Full Width -->
             <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-3xl shadow-xl space-y-4">
                 <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                    <h3 class="font-bold text-indigo-400 text-base flex items-center gap-2"><span>💬</span> Ý Kiến Thảo Luận Của Học Sinh</h3>
+                    <h3 class="font-bold text-indigo-400 text-base flex items-center gap-2"><span>💬</span> Phiếu Thảo Luận & Ý Kiến Nhóm Học Sinh</h3>
                     <span class="text-xs text-slate-400">Góc nhìn AI và con người</span>
                 </div>
-                <div id="teacherDiscussionList" class="space-y-3 max-h-80 overflow-y-auto pr-2">
-                    <div class="text-center text-slate-500 text-sm py-4">Chưa có câu trả lời thảo luận nào...</div>
+                <div id="teacherDiscussionList" class="space-y-3 max-h-96 overflow-y-auto pr-2">
+                    <div class="text-center text-slate-500 text-sm py-4">Chưa có phiếu thảo luận nào được nộp...</div>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- Custom Modal Popup -->
     <div id="customModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-        <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full p-6 text-center shadow-2xl space-y-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-xl w-full p-6 text-center shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
             <div id="modalIcon" class="text-4xl">🎉</div>
             <h3 id="modalTitle" class="text-xl font-bold text-amber-400">Thông báo</h3>
-            <div id="modalMessage" class="text-slate-300 text-sm leading-relaxed space-y-2">Nội dung...</div>
-            <button onclick="closeModal()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl shadow transition">
+            <div id="modalMessage" class="text-slate-300 text-sm leading-relaxed space-y-2 text-left">Nội dung...</div>
+            <button onclick="closeModal()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl shadow transition cursor-pointer">
                 Tiếp tục 🚀
             </button>
         </div>
@@ -438,7 +835,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         let db = null;
@@ -455,7 +852,11 @@
                 const app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
-                await signInAnonymously(auth);
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
                 initFirebaseDatabase(db, appId);
             } else {
                 initLocalDatabase();
@@ -479,41 +880,39 @@
                 }
             };
 
-            window.saveQuizToCloud = async function(name, score) {
+            window.saveQuizToCloud = async function(name, score, details) {
                 const recordId = 'quiz_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
                 try {
-                    await addDoc(quizRefInstance, { id: recordId, name, score, timestamp: Date.now() });
+                    await addDoc(quizRefInstance, { id: recordId, name, score, details, timestamp: Date.now() });
                 } catch(err) {
-                    saveLocally('quiz_results_local', { id: recordId, name, score, timestamp: Date.now() });
+                    saveLocally('quiz_results_local', { id: recordId, name, score, details, timestamp: Date.now() });
                 }
             };
 
-            window.saveDiscussionToCloud = async function(name, answer) {
+            window.saveDiscussionToCloud = async function(worksheetData) {
                 const recordId = 'disc_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
                 try {
-                    await addDoc(discRefInstance, { id: recordId, name, answer, timestamp: Date.now() });
+                    await addDoc(discRefInstance, { id: recordId, ...worksheetData, timestamp: Date.now() });
                 } catch(err) {
-                    saveLocally('discussion_local', { id: recordId, name, answer, timestamp: Date.now() });
+                    saveLocally('discussion_local', { id: recordId, ...worksheetData, timestamp: Date.now() });
                 }
             };
 
-            window.deleteRecord = async function(type, id) {
+            window.deleteRecord = async function(type, id, firebaseDocId) {
                 let colName = 'classroom_scores';
-                if(type === 'quiz') colName = 'quiz_results';
-                if(type === 'discussion') colName = 'student_discussions';
+                let key = 'classroom_leaderboard';
+                if(type === 'quiz') { colName = 'quiz_results'; key = 'quiz_results_local'; }
+                if(type === 'discussion') { colName = 'student_discussions'; key = 'discussion_local'; }
                 
                 try {
-                    if (db && appId && id) {
-                        const targetDocRef = doc(db, 'artifacts', appId, 'public', 'data', colName, id);
+                    if (db && appId && firebaseDocId) {
+                        const targetDocRef = doc(db, 'artifacts', appId, 'public', 'data', colName, firebaseDocId);
                         await deleteDoc(targetDocRef);
                     }
                 } catch(err) {
                     console.warn("Cloud delete note:", err);
                 }
 
-                let key = 'classroom_leaderboard';
-                if(type === 'quiz') key = 'quiz_results_local';
-                if(type === 'discussion') key = 'discussion_local';
                 deleteLocallyKeyId(key, id);
             };
 
@@ -521,44 +920,50 @@
                 let items = [];
                 snapshot.forEach(d => {
                     const data = d.data();
-                    items.push({ id: d.id, ...data });
+                    items.push({ firebaseDocId: d.id, id: data.id || d.id, ...data });
                 });
                 renderGameLeaderboards(items);
-            }, () => renderGameLeaderboards(getLocal('classroom_leaderboard')));
+            }, (error) => {
+                console.warn("Snapshot error scores:", error);
+                renderGameLeaderboards(getLocal('classroom_leaderboard'));
+            });
 
             onSnapshot(quizRefInstance, (snapshot) => {
                 let items = [];
                 snapshot.forEach(d => {
                     const data = d.data();
-                    items.push({ id: d.id, ...data });
+                    items.push({ firebaseDocId: d.id, id: data.id || d.id, ...data });
                 });
                 renderQuizResults(items);
-            }, () => renderQuizResults(getLocal('quiz_results_local')));
+            }, (error) => {
+                console.warn("Snapshot error quiz:", error);
+                renderQuizResults(getLocal('quiz_results_local'));
+            });
 
             onSnapshot(discRefInstance, (snapshot) => {
                 let items = [];
                 snapshot.forEach(d => {
                     const data = d.data();
-                    items.push({ id: d.id, ...data });
+                    items.push({ firebaseDocId: d.id, id: data.id || d.id, ...data });
                 });
                 renderDiscussions(items);
-            }, () => renderDiscussions(getLocal('discussion_local')));
+            }, (error) => {
+                console.warn("Snapshot error disc:", error);
+                renderDiscussions(getLocal('discussion_local'));
+            });
         }
 
         function initLocalDatabase() {
             window.saveScoreToCloud = function(name, score) {
                 saveLocally('classroom_leaderboard', { name, score, timestamp: Date.now() });
-                renderGameLeaderboards(getLocal('classroom_leaderboard'));
             };
-            window.saveQuizToCloud = function(name, score) {
-                saveLocally('quiz_results_local', { name, score, timestamp: Date.now() });
-                renderQuizResults(getLocal('quiz_results_local'));
+            window.saveQuizToCloud = function(name, score, details) {
+                saveLocally('quiz_results_local', { name, score, details, timestamp: Date.now() });
             };
-            window.saveDiscussionToCloud = function(name, answer) {
-                saveLocally('discussion_local', { name, answer, timestamp: Date.now() });
-                renderDiscussions(getLocal('discussion_local'));
+            window.saveDiscussionToCloud = function(worksheetData) {
+                saveLocally('discussion_local', { ...worksheetData, timestamp: Date.now() });
             };
-            window.deleteRecord = function(type, id) {
+            window.deleteRecord = function(type, id, firebaseDocId) {
                 let key = 'classroom_leaderboard';
                 if(type === 'quiz') key = 'quiz_results_local';
                 if(type === 'discussion') key = 'discussion_local';
@@ -584,7 +989,7 @@
 
         function deleteLocallyKeyId(key, id) {
             let list = JSON.parse(localStorage.getItem(key) || '[]');
-            list = list.filter(item => item.id !== id);
+            list = list.filter(item => item.id !== id && item.firebaseDocId !== id);
             localStorage.setItem(key, JSON.stringify(list));
             if(key === 'classroom_leaderboard') renderGameLeaderboards(list);
             if(key === 'quiz_results_local') renderQuizResults(list);
@@ -635,6 +1040,7 @@
                 items.forEach((item, idx) => {
                     let isWinner = item.score >= 100;
                     let recordId = item.id || '';
+                    let fbDocId = item.firebaseDocId || '';
                     html += `
                         <div class="flex items-center justify-between p-3 rounded-2xl border ${isWinner ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-200' : 'bg-slate-800/60 border-slate-700 text-slate-300'}">
                             <div>
@@ -644,7 +1050,7 @@
                             <div class="flex items-center gap-3">
                                 <span class="font-bold text-cyan-400">${item.score} đ</span>
                                 ${isWinner ? '<span class="bg-emerald-500 text-slate-950 text-[10px] font-bold px-2 py-0.5 rounded-full">Trúng Thưởng 🎁</span>' : '<span class="text-xs text-slate-400">Chưa đủ đ</span>'}
-                                <button onclick="deleteRecord('score', '${recordId}')" class="bg-rose-500/20 hover:bg-rose-500 text-rose-300 hover:text-white px-2.5 py-1 rounded-lg text-xs transition cursor-pointer" title="Xóa mục này">🗑️ Xóa</button>
+                                <button onclick="deleteRecord('score', '${recordId}', '${fbDocId}')" class="bg-rose-500/20 hover:bg-rose-500 text-rose-300 hover:text-white px-2.5 py-1 rounded-lg text-xs transition cursor-pointer" title="Xóa mục này">🗑️ Xóa</button>
                             </div>
                         </div>
                     `;
@@ -659,15 +1065,18 @@
             let html = '';
             items.forEach((item) => {
                 let recordId = item.id || '';
+                let fbDocId = item.firebaseDocId || '';
+                let detailsText = item.details ? `<span class="text-[11px] text-slate-400 block">${item.details}</span>` : '';
                 html += `
                     <div class="flex items-center justify-between p-3 rounded-2xl border bg-slate-800/60 border-slate-700 text-slate-300">
                         <div>
                             <span class="font-bold text-sm">${item.name}</span>
-                            <div class="text-[10px] text-slate-400">${new Date(item.timestamp || Date.now()).toLocaleTimeString()}</div>
+                            ${detailsText}
+                            <div class="text-[10px] text-slate-500">${new Date(item.timestamp || Date.now()).toLocaleTimeString()}</div>
                         </div>
                         <div class="flex items-center gap-3">
                             <span class="font-bold text-cyan-400">${item.score} / 3 điểm</span>
-                            <button onclick="deleteRecord('quiz', '${recordId}')" class="bg-rose-500/20 hover:bg-rose-500 text-rose-300 hover:text-white px-2.5 py-1 rounded-lg text-xs transition cursor-pointer" title="Xóa mục này">🗑️ Xóa</button>
+                            <button onclick="deleteRecord('quiz', '${recordId}', '${fbDocId}')" class="bg-rose-500/20 hover:bg-rose-500 text-rose-300 hover:text-white px-2.5 py-1 rounded-lg text-xs transition cursor-pointer" title="Xóa mục này">🗑️ Xóa</button>
                         </div>
                     </div>
                 `;
@@ -681,63 +1090,106 @@
             let html = '';
             items.forEach((item) => {
                 let recordId = item.id || '';
+                let fbDocId = item.firebaseDocId || '';
+                let groupName = item.groupName || item.name || "Nhóm học sinh";
+                let members = item.groupMembers ? `<div class="text-xs text-indigo-300">Thành viên: ${item.groupMembers}</div>` : '';
+                let choice = item.aiReplaceChoice ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold ${item.aiReplaceChoice === 'KHÔNG' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'}">Lựa chọn: ${item.aiReplaceChoice}</span>` : '';
+                
+                let detailsHtml = '';
+                if(item.part1_1) {
+                    detailsHtml = `
+                        <div class="text-xs space-y-1.5 mt-2 bg-slate-900/80 p-3 rounded-xl border border-slate-700/60">
+                            <div><b class="text-cyan-400">1. AI giỏi việc gì:</b> ${item.part1_1}</div>
+                            <div><b class="text-cyan-400">2. Khác biệt AI vs Người:</b> ${item.part1_2}</div>
+                            <div><b class="text-indigo-400">3. Phân tích suy luận:</b> ${item.part2_1}</div>
+                            <div><b class="text-indigo-400">4. Phân tích sáng tạo:</b> ${item.part2_2}</div>
+                            <div><b class="text-amber-400">5. Lý do cốt lõi:</b> ${item.part3_reason}</div>
+                            <div><b class="text-amber-400">6. Đề xuất hành động:</b> ${item.part3_action}</div>
+                        </div>
+                    `;
+                } else if(item.answer) {
+                    detailsHtml = `<p class="text-slate-200 text-sm italic mt-1">"${item.answer}"</p>`;
+                }
+
                 html += `
                     <div class="p-4 rounded-2xl border bg-slate-800/60 border-slate-700 space-y-2">
                         <div class="flex justify-between items-center">
-                            <span class="font-bold text-cyan-400 text-sm">${item.name}</span>
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-cyan-400 text-sm">${groupName}</span>
+                                ${choice}
+                            </div>
                             <div class="flex items-center gap-3">
                                 <span class="text-[10px] text-slate-400">${new Date(item.timestamp || Date.now()).toLocaleTimeString()}</span>
-                                <button onclick="deleteRecord('discussion', '${recordId}')" class="bg-rose-500/20 hover:bg-rose-500 text-rose-300 hover:text-white px-2.5 py-1 rounded-lg text-xs transition cursor-pointer" title="Xóa mục này">🗑️ Xóa</button>
+                                <button onclick="deleteRecord('discussion', '${recordId}', '${fbDocId}')" class="bg-rose-500/20 hover:bg-rose-500 text-rose-300 hover:text-white px-2.5 py-1 rounded-lg text-xs transition cursor-pointer" title="Xóa mục này">🗑️ Xóa</button>
                             </div>
                         </div>
-                        <p class="text-slate-200 text-sm italic">"${item.answer}"</p>
+                        ${members}
+                        ${detailsHtml}
                     </div>
                 `;
             });
-            teacherDiscList.innerHTML = html || '<div class="text-center text-slate-500 text-sm py-4">Chưa có ý kiến thảo luận nào.</div>';
+            teacherDiscList.innerHTML = html || '<div class="text-center text-slate-500 text-sm py-4">Chưa có phiếu thảo luận nào được nộp.</div>';
         }
     </script>
 
     <script>
         let globalStudentName = "";
 
+        // JSON Remedial Module Data: tin_hoc_10_ifelse_basic
+        const tinHoc10JsonData = {
+          "moduleId": "tin_hoc_10_ifelse_basic",
+          "targetGroup": "remedial_basic",
+          "title": "Gỡ rối cấu trúc rẽ nhánh if...else",
+          "microLesson": {
+            "concept": "Câu lệnh điều kiện dùng để máy tính ra quyết định.",
+            "analogy": "Giống như rẽ trái hay rẽ phải khi gặp ngã ba."
+          },
+          "challenge": {
+            "question": "Đoạn code Python sau thiếu ký tự nào ở dòng chứa chữ else?",
+            "codeSnippet": "if diem >= 5:\n    print('Đạt')\nelse\n    print('Chưa đạt')",
+            "options": [
+              "Dấu hai chấm (:)",
+              "Dấu ngoặc đơn ()",
+              "Dấu chấm phẩy (;)"
+            ],
+            "correctIndex": 0,
+            "hint": "Cú pháp của mệnh đề else trong Python luôn phải có dấu `:` ở cuối."
+          }
+        };
+
         window.addEventListener('DOMContentLoaded', () => {
             let currentUrl = window.location.href.split('#')[0];
-            if(currentUrl.startsWith('file:') || currentUrl.includes('blob:')) {
+            if(currentUrl.startsWith('file:') || currentUrl.includes('blob:') || currentUrl.includes('localhost')) {
                 currentUrl = 'https://hanhtrinh-so-ai.netlify.app';
             }
-            const fullTargetUrl = currentUrl + '#game';
-            
-            const customAppUrlInput = document.getElementById('customAppUrl');
-            if(customAppUrlInput) customAppUrlInput.value = fullTargetUrl;
 
-            updateAppQrImage(fullTargetUrl);
+            updateAppQrImage(currentUrl);
             updatePadletQrImage('https://padlet.com');
             renderQuiz();
+            renderPromptCards();
+            renderJsonRemedialModule();
 
             const hash = window.location.hash.replace('#', '');
-            if(hash && ['overview', 'quiz', 'models', 'padlet', 'game', 'discussion', 'teacher'].includes(hash)) {
+            if(hash && ['overview', 'quiz', 'models', 'aitools', 'padlet', 'game', 'discussion', 'teacher'].includes(hash)) {
                 switchTab(hash);
             }
         });
 
-        window.updateAppQrCode = function() {
-            const customAppUrlInput = document.getElementById('customAppUrl');
-            if(!customAppUrlInput) return;
-            let urlVal = customAppUrlInput.value.trim();
-            if(!urlVal) {
-                let fallback = window.location.href.split('#')[0];
-                if(fallback.startsWith('file:') || fallback.includes('blob:')) fallback = 'https://hanhtrinh-so-ai.netlify.app';
-                urlVal = fallback + '#game';
-            }
-            updateAppQrImage(urlVal);
-            openModal("Cập nhật QR Tổng thành công! 📱", "Mã QR ở phần Tổng quan đã được làm mới để học sinh quét vào thẳng phần mềm trên mọi điện thoại.", "✅");
-        };
-
         function updateAppQrImage(targetUrl) {
             const appQrImg = document.getElementById('appQrImg');
-            if(appQrImg) appQrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(targetUrl)}`;
+            if(appQrImg) {
+                const gameUrl = (targetUrl.includes('?') ? targetUrl : targetUrl + '#game');
+                appQrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(gameUrl)}`;
+            }
         }
+
+        window.updateCustomQr = function() {
+            const input = document.getElementById('customUrlInput').value.trim();
+            if(input) {
+                updateAppQrImage(input);
+                openModal("Thành công! 📱", "Đã cập nhật mã QR theo đường dẫn mới của thầy/cô.", "✅");
+            }
+        };
 
         function updatePadletQrImage(targetUrl) {
             const padletImg = document.getElementById('padletQrImg');
@@ -781,6 +1233,116 @@
             }
         };
 
+        window.openBlendedModal = function() {
+            const content = `
+                <div class="space-y-4 text-xs sm:text-sm text-slate-300">
+                    <div class="bg-slate-800/80 p-4 rounded-xl border border-cyan-500/30">
+                        <h4 class="font-bold text-cyan-400 text-base mb-2">🔄 Các mô hình Blended Learning phổ biến</h4>
+                        <ul class="space-y-2 text-slate-300">
+                            <li>• <b>Mô hình Luân phiên (Rotation Model):</b> Học sinh di chuyển theo lịch trình luân phiên giữa các trạm học tập khác nhau, bao gồm làm việc nhóm, học trực tiếp với giáo viên và tự học trên máy tính/thiết bị số.</li>
+                            <li>• <b>Mô hình Trực tuyến linh hoạt (Flex Model):</b> Nội dung chính được cung cấp qua nền tảng trực tuyến; học sinh tự định hướng tốc độ học tập dưới sự hỗ trợ cá nhân hóa và giải đáp thắc mắc trực tiếp từ giáo viên.</li>
+                            <li>• <b>Mô hình Tự chọn (À La Carte):</b> Người học tham gia một số khóa học trực tuyến hoàn toàn độc lập song song với các môn học trực tiếp tại trường để mở rộng kiến thức.</li>
+                            <li>• <b>Mô hình Trực tuyến tăng cường (Enriched Virtual):</b> Học sinh chủ yếu học ở nhà qua hệ thống trực tuyến và chỉ đến trường tham gia các buổi thảo luận, thực hành hoặc kiểm tra định kỳ với giáo viên.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-800/80 p-4 rounded-xl border border-indigo-500/30">
+                        <h4 class="font-bold text-indigo-400 text-base mb-2">✨ Lợi ích cốt lõi trong giáo dục hiện đại</h4>
+                        <ul class="space-y-2 text-slate-300">
+                            <li>• <b>Cá nhân hóa học tập:</b> Cho phép người học tự điều chỉnh tốc độ, ôn tập lại nội dung chưa vững hoặc tiếp cận tài liệu nâng cao tùy theo năng lực cá nhân.</li>
+                            <li>• <b>Tối ưu hóa thời gian trên lớp:</b> Giảm thiểu thời gian truyền thụ lý thuyết một chiều, nhường chỗ cho các hoạt động thảo luận nhóm, giải quyết vấn đề, trải nghiệm thực tế và rèn luyện kỹ năng mềm.</li>
+                            <li>• <b>Kho học liệu không giới hạn:</b> Giáo viên dễ dàng tích hợp video bài giảng, tài liệu số, bài kiểm tra tương tác và các công cụ AI hỗ trợ đánh giá quá trình.</li>
+                            <li>• <b>Phát triển năng lực tự học:</b> Rèn luyện cho học sinh kỹ năng quản lý thời gian, tư duy số và ý thức tự giác cao trong học tập.</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            openModal("Chi Tiết Mô Hình Blended Learning & Lợi Ích", content, "🔄");
+        };
+
+        window.openPersonalizedModal = function() {
+            const content = `
+                <div class="space-y-4 text-xs sm:text-sm text-slate-300">
+                    <div class="bg-slate-800/80 p-4 rounded-xl border border-indigo-500/30 space-y-2">
+                        <h4 class="font-bold text-indigo-400 text-base mb-1">🎯 Khái niệm cốt lõi</h4>
+                        <p class="leading-relaxed"><b>Personalized Learning (Học tập cá nhân hóa)</b> là phương pháp giáo dục thiết kế quá trình dạy học thích ứng với điểm mạnh, nhu cầu, sở thích và tốc độ của từng học sinh riêng biệt. Thay vì áp dụng công thức "một kích cỡ cho tất cả" (one-size-fits-all), mô hình này đặt học sinh làm trung tâm để tối ưu hóa năng lực phát triển của mỗi cá nhân.</p>
+                    </div>
+
+                    <div class="bg-slate-800/80 p-4 rounded-xl border border-cyan-500/30 space-y-2">
+                        <h4 class="font-bold text-cyan-400 text-base mb-1">🏛 Trụ cột cốt lõi của mô hình</h4>
+                        <ul class="space-y-2 text-slate-300">
+                            <li>• <b>Hồ sơ năng lực học tập (Learner Profile):</b> Xây dựng dựa trên việc thấu hiểu điểm mạnh, điểm yếu, phong cách tiếp thu (thị giác, thính giác, vận động) và sở thích của từng em.</li>
+                            <li>• <b>Lộ trình linh hoạt (Flexible Pathways):</b> Cho phép học sinh lựa chọn phương thức tiếp cận kiến thức khác nhau (qua video, bài đọc, sơ đồ tư duy hoặc thực hành) để hiểu bài sâu nhất.</li>
+                            <li>• <b>Tiến độ dựa trên năng lực (Competency-Based Progression):</b> Học sinh chỉ chuyển sang nội dung nâng cao khi đã thực sự nắm vững kiến thức hiện tại, không bị ràng buộc bởi khung thời gian chung của lớp.</li>
+                            <li>• <b>Quyền làm chủ học tập (Student Agency):</b> Khuyến khích học sinh tự đặt mục tiêu, tự theo dõi tiến độ và chủ động tìm kiếm sự hỗ trợ khi gặp khó khăn.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-800/80 p-4 rounded-xl border border-amber-500/30 space-y-2">
+                        <h4 class="font-bold text-amber-400 text-base mb-1">🤖 Vai trò của Công nghệ và AI trong cá nhân hóa</h4>
+                        <p class="text-slate-300 mb-2">Trước đây, việc cá nhân hóa cho từng học sinh trong một lớp học đông là thách thức lớn đối với giáo viên. Hiện nay, công nghệ và trí tuệ nhân tạo đã giải quyết bài toán này thông qua:</p>
+                        <ul class="space-y-2 text-slate-300">
+                            <li>• <b>Hệ thống học tập thích ứng (Adaptive Learning):</b> Tự động điều chỉnh độ khó của bài tập dựa trên mức độ trả lời đúng/sai của học sinh theo thời gian thực.</li>
+                            <li>• <b>Phân hóa học liệu bằng AI:</b> Giáo viên có thể sử dụng các công cụ AI để nhanh chóng soạn ra 3 mức độ bài tập (Cơ bản - Trung bình - Nâng cao) cho cùng một chủ đề bài học.</li>
+                            <li>• <b>Gia sư AI 1-1:</b> Hỗ trợ giải thích các thắc mắc riêng của từng học sinh ngoài giờ lên lớp với tốc độ và cách diễn giải phù hợp với nhận thức của các em.</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            openModal("Chi Tiết Mô Hình Personalized Learning & AI", content, "🎯");
+        };
+
+        window.openSelfDirectedModal = function() {
+            const content = `
+                <div class="space-y-4 text-xs sm:text-sm text-slate-300">
+                    <div class="bg-slate-800/80 p-4 rounded-xl border border-amber-500/30 space-y-2">
+                        <h4 class="font-bold text-amber-400 text-base mb-1">🧭 Khái niệm Self-Directed Learning</h4>
+                        <p class="leading-relaxed"><b>Self-Directed Learning (Học tập tự định hướng)</b> là mô hình giáo dục trong đó người học chủ động nắm quyền kiểm soát toàn bộ quá trình học tập của mình — từ việc tự xác định nhu cầu, đặt mục tiêu, tìm kiếm tài nguyên, lựa chọn phương pháp cho đến tự đánh giá kết quả mà không phụ thuộc vào sự thúc ép từ giáo viên.</p>
+                        <p class="text-cyan-300 italic">💡 Nếu như Personalized Learning là việc "cá nhân hóa từ phía người dạy", thì Self-Directed Learning chính là bước tiến cao hơn khi người học tự làm chủ và vận hành quá trình học đó.</p>
+                    </div>
+
+                    <div class="bg-slate-800/80 p-4 rounded-xl border border-indigo-500/30 space-y-2">
+                        <h4 class="font-bold text-indigo-400 text-base mb-1">🔄 5 bước cốt lõi trong chu trình Self-Directed Learning</h4>
+                        <ul class="space-y-2 text-slate-300">
+                            <li>• <b>1. Nhận diện nhu cầu (Diagnosing Needs):</b> Học sinh tự trả lời câu hỏi: "Mình đang thiếu kiến thức hay kỹ năng gì? Mình muốn tìm hiểu thêm điều gì?"</li>
+                            <li>• <b>2. Thiết lập mục tiêu (Setting Goals):</b> Đặt ra mục tiêu cụ thể, đo lường được (ví dụ: "Trong tuần này mình phải viết được đoạn code Python đơn giản cho vòng lặp for").</li>
+                            <li>• <b>3. Tìm kiếm nguồn lực (Finding Resources):</b> Chủ động khai thác tài liệu từ sách giáo khoa, video hướng dẫn, hoặc sử dụng AI làm trợ lý học tập (như đoạn prompt mẫu).</li>
+                            <li>• <b>4. Thực thi chiến lược (Executing):</b> Tự thực hành, thử nghiệm, vấp ngã, tự sửa lỗi và điều chỉnh tốc độ học phù hợp với bản thân.</li>
+                            <li>• <b>5. Tự đánh giá (Self-Evaluation):</b> Tự kiểm tra lại xem mình đã đạt mục tiêu đề ra chưa qua các bài trắc nghiệm tự tạo hoặc sản phẩm thực tế.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Sổ tay tự học thông minh cùng AI -->
+                    <div class="bg-emerald-950/40 border border-emerald-500/30 p-4 rounded-2xl space-y-3">
+                        <h4 class="font-bold text-emerald-400 text-base flex items-center gap-2"><span>📘</span> SỔ TAY TỰ HỌC THÔNG MINH CÙNG AI</h4>
+                        <p class="text-xs text-slate-400">Cẩm nang rèn luyện năng lực "Self-Directed Learning" dành cho học sinh</p>
+                        
+                        <div class="space-y-3 pt-2">
+                            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700 space-y-1">
+                                <span class="font-bold text-cyan-400 block">Phần 1: Chu trình 4 bước tự học chủ động</span>
+                                <p class="text-slate-300 text-xs">1. <b>Xác định mục tiêu:</b> Hôm nay muốn nắm vững kiến thức gì?<br>2. <b>Khai thác nguồn lực:</b> Đọc SGK, xem video hoặc dùng AI trợ giúp.<br>3. <b>Thực hành & Trải nghiệm:</b> Tự làm bài tập, viết code, tự tìm lỗi sửa chữa.<br>4. <b>Tự đánh giá:</b> Kiểm tra mức độ hiểu bài trước khi sang chủ đề mới.</p>
+                            </div>
+
+                            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700 space-y-1">
+                                <span class="font-bold text-amber-400 block">Phần 2: Công thức "Gia sư AI" (Không chép đáp án)</span>
+                                <p class="text-emerald-300 font-mono italic text-[11px] bg-slate-950 p-2.5 rounded border border-emerald-500/30">"Bạn hãy đóng vai là một người bạn học cùng nhóm kiên nhẫn. Tôi đang học về [tên chủ đề], nhưng chưa hiểu phần [nội dung cụ thể]. Hãy giải thích bằng một ví dụ thực tế gần gũi, sau đó đặt cho tôi 1 câu hỏi bài tập nhỏ để kiểm tra. Tuyệt đối không giải sẵn bài tập mà hãy để tôi tự suy luận."</p>
+                            </div>
+
+                            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700 space-y-1">
+                                <span class="font-bold text-rose-400 block">Phần 3: Nguyên tắc "3 KHÔNG" khi dùng AI tự học</span>
+                                <ul class="text-slate-300 text-xs space-y-1">
+                                    <li>❌ <b>Không chép nguyên văn:</b> Không sao chép câu trả lời của AI nộp vào bài tập cá nhân.</li>
+                                    <li>❌ <b>Không hỏi đáp án tắt:</b> Luôn yêu cầu AI giải thích tại sao lại ra kết quả đó thay vì chỉ lấy kết quả cuối cùng.</li>
+                                    <li>❌ <b>Không phó mặc tư duy:</b> AI chỉ là người định hướng và gợi ý, não bộ của người học mới là nơi quyết định sự tiến bộ.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            openModal("Chi Tiết Self-Directed Learning & Sổ Tay Tự Học AI", content, "🧭");
+        };
+
         window.closeModal = function() {
             const modal = document.getElementById('customModal');
             if(modal) {
@@ -789,46 +1351,213 @@
             }
         };
 
-        // Quiz Logic
+        window.copySocraticPrompt = function() {
+            const text = document.getElementById('socraticPromptText').innerText;
+            if(navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    openModal("Thành công! 📋", "Đã sao chép mẫu câu lệnh Socratic vào bộ nhớ tạm. Hãy dán vào ChatGPT hoặc Gemini để bắt đầu tự học!", "✨");
+                });
+            } else {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                openModal("Thành công! 📋", "Đã sao chép mẫu câu lệnh Socratic vào bộ nhớ tạm!", "✨");
+            }
+        };
+
+        // Prompt Remedial Module Interactive State
+        let promptCardsState = [
+            { id: 'A', text: '(A) giải thích khái niệm Địa đạo Vịnh Mốc', correctPos: 1 },
+            { id: 'B', text: '(B) bằng ngôn ngữ đơn giản cho học sinh lớp 10', correctPos: 2 },
+            { id: 'C', text: '(C) Bạn là một hướng dẫn viên du lịch', correctPos: 0 }
+        ];
+
+        function renderPromptCards() {
+            const container = document.getElementById('promptCardsContainer');
+            if(!container) return;
+            let html = '';
+            promptCardsState.forEach((card, idx) => {
+                html += `
+                    <div class="flex items-center justify-between bg-slate-800 border border-slate-700 p-3 rounded-xl">
+                        <span class="text-xs sm:text-sm text-slate-200 font-medium">${idx + 1}. ${card.text}</span>
+                        <div class="flex gap-1.5 shrink-0">
+                            <button onclick="movePromptCard(${idx}, -1)" class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-1 rounded-xl text-xs font-bold">▲</button>
+                            <button onclick="movePromptCard(${idx}, 1)" class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-1 rounded-xl text-xs font-bold">▼</button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        window.movePromptCard = function(index, direction) {
+            const newIndex = index + direction;
+            if (newIndex >= 0 && newIndex < promptCardsState.length) {
+                const temp = promptCardsState[index];
+                promptCardsState[index] = promptCardsState[newIndex];
+                promptCardsState[newIndex] = temp;
+                renderPromptCards();
+            }
+        };
+
+        window.resetPromptPuzzle = function() {
+            promptCardsState.sort(() => Math.random() - 0.5);
+            document.getElementById('promptFeedbackBox').classList.add('hidden');
+            renderPromptCards();
+        };
+
+        window.checkPromptSolution = function() {
+            const feedbackBox = document.getElementById('promptFeedbackBox');
+            feedbackBox.classList.remove('hidden');
+            
+            const currentOrder = promptCardsState.map(c => c.id).join('');
+            if(currentOrder === 'CAB') {
+                feedbackBox.className = "p-4 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-500/10 border border-emerald-500/30 text-emerald-300";
+                feedbackBox.innerHTML = "✅ <b>Chính xác tuyệt đối!</b> Em đã nắm được cấu trúc cốt lõi (C &rarr; A &rarr; B). Chúc mừng em nhận được 10 điểm kỹ năng Prompt!";
+                openModal("Thành Công! 🎉", "Em đã hoàn thành xuất sắc mô-đun phụ đạo Prompt căn bản và nhận 10 điểm kỹ năng!", "🌟");
+            } else {
+                feedbackBox.className = "p-4 rounded-xl text-xs sm:text-sm font-semibold bg-amber-500/10 border border-amber-500/30 text-amber-300";
+                feedbackBox.innerHTML = "💡 <b>Gợi ý phụ đạo:</b> Luôn phải giao vai trò cho AI trước (Thẻ C), sau đó mới đến nội dung cần hỏi (Thẻ A) và định dạng (Thẻ B). Hãy thử sắp xếp lại nhé!";
+            }
+        };
+
+        // Render JSON Remedial Module: Tin học 10 if...else
+        function renderJsonRemedialModule() {
+            const data = tinHoc10JsonData;
+            document.getElementById('jsonModuleTitle').textContent = "Mô-đun Phụ Đạo Tin Học 10: " + data.title;
+            document.getElementById('jsonConceptText').textContent = data.microLesson.concept;
+            document.getElementById('jsonAnalogyText').textContent = "💡 Thực tế: " + data.microLesson.analogy;
+            document.getElementById('jsonQuestionText').textContent = data.challenge.question;
+            document.getElementById('jsonCodeSnippet').textContent = data.challenge.codeSnippet;
+
+            const optsContainer = document.getElementById('jsonOptionsContainer');
+            let html = '';
+            data.challenge.options.forEach((opt, idx) => {
+                html += `
+                    <label class="flex items-center gap-3 bg-slate-800 hover:bg-slate-750 border border-slate-700 p-3 rounded-xl cursor-pointer text-xs sm:text-sm text-slate-200">
+                        <input type="radio" name="jsonRemedialRadio" value="${idx}" class="text-indigo-500 focus:ring-indigo-400 h-4 w-4">
+                        <span>${opt}</span>
+                    </label>
+                `;
+            });
+            optsContainer.innerHTML = html;
+        }
+
+        window.checkJsonRemedialAnswer = function() {
+            const radios = document.getElementsByName('jsonRemedialRadio');
+            let selectedVal = -1;
+            for(let r of radios) {
+                if(r.checked) { selectedVal = parseInt(r.value); break; }
+            }
+
+            const feedbackBox = document.getElementById('jsonFeedbackBox');
+            feedbackBox.classList.remove('hidden');
+
+            if(selectedVal === tinHoc10JsonData.challenge.correctIndex) {
+                feedbackBox.className = "p-4 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-500/10 border border-emerald-500/30 text-emerald-300";
+                feedbackBox.innerHTML = "✅ <b>Chính xác tuyệt đối!</b> Lệnh <code>else:</code> trong Python bắt buộc phải có dấu hai chấm ở cuối dòng.";
+                openModal("Xuất Sắc! 💻", "Em đã hoàn thành thử thách gỡ rối code Python (if...else) thành công!", "🏆");
+            } else if(selectedVal === -1) {
+                feedbackBox.className = "p-4 rounded-xl text-xs sm:text-sm font-semibold bg-amber-500/10 border border-amber-500/30 text-amber-300";
+                feedbackBox.innerHTML = "⚠️ Vui lòng chọn một đáp án để kiểm tra!";
+            } else {
+                feedbackBox.className = "p-4 rounded-xl text-xs sm:text-sm font-semibold bg-rose-500/10 border border-rose-500/30 text-rose-300";
+                feedbackBox.innerHTML = "💡 <b>Gợi ý gỡ rối:</b> " + tinHoc10JsonData.challenge.hint;
+            }
+        };
+
+        // Quiz Logic with 30s Timer per question & Exit button (no auto alert popup, only evaluates on user click)
         const quizData = [
             { q: "Câu 1: Công cụ AI nào được học sinh dùng phổ biến làm gia sư 24/7?", options: ["A. Từ điển giấy", "B. Các AI Chatbot (Gemini, ChatGPT...)", "C. Tin nhắn thông thường"], correct: 1, explanation: "Chính xác! AI Chatbot là trợ lý hỗ trợ học tập đắc lực." },
             { q: "Câu 2: Vừa học trực tiếp vừa học qua video và học liệu số gọi là gì?", options: ["A. Học vẹt", "B. Blended Learning (Học kết hợp)", "C. Du lịch học tập"], correct: 1, explanation: "Đúng vậy, Blended Learning kết hợp hoàn hảo không gian số và lớp học." },
             { q: "Câu 3: Điểm ưu việt lớn nhất khi học tập cùng sự hỗ trợ của AI là gì?", options: ["A. AI làm hộ bài", "B. Cá nhân hóa lộ trình ôn tập theo năng lực từng học sinh", "C. Không cần suy nghĩ"], correct: 1, explanation: "Tuyệt vời! AI giúp đo ni đóng giày cho năng lực từng em." }
         ];
         let currentQuizIndex = 0, quizScore = 0;
+        let quizTimerInterval = null;
+        let questionTimeLeft = 30;
+        let quizStartTime = 0;
 
         window.lockQuizName = function() {
             const name = document.getElementById('quizStudentName').value.trim();
-            if(!name) { openModal("Nhập tên", "Vui lòng nhập tên của em để bắt đầu tính điểm!", "⚠️"); return; }
+            if(!name) { openModal("Nhập tên", "Vui lòng nhập tên của em để bắt đầu tính điểm!", "⚠"); return; }
             globalStudentName = name;
             document.getElementById('quizNameSection').classList.add('hidden');
             document.getElementById('quizContainer').classList.remove('opacity-50', 'pointer-events-none');
+            document.getElementById('quizTimerDisplay').classList.remove('hidden');
+            document.getElementById('quizExitBtn').classList.remove('hidden');
+            quizStartTime = Date.now();
+            renderQuiz();
+        };
+
+        window.exitQuiz = function() {
+            if(quizTimerInterval) clearInterval(quizTimerInterval);
+            currentQuizIndex = 0;
+            quizScore = 0;
+            globalStudentName = "";
+            document.getElementById('quizStudentName').value = "";
+            document.getElementById('quizNameSection').classList.remove('hidden');
+            document.getElementById('quizContainer').classList.add('opacity-50', 'pointer-events-none');
+            document.getElementById('quizTimerDisplay').classList.add('hidden');
+            document.getElementById('quizExitBtn').classList.add('hidden');
+            const container = document.getElementById('quizContainer');
+            if(container) container.innerHTML = "";
+            const progress = document.getElementById('quizProgress');
+            if(progress) progress.textContent = "Câu 1 / 3";
+            openModal("Đã thoát trò chơi", "Em đã thoát khỏi trò chơi Mật Mã Số. Có thể nhập lại tên để chơi lại từ đầu.", "🚪");
         };
 
         function renderQuiz() {
+            if(quizTimerInterval) clearInterval(quizTimerInterval);
+
             const container = document.getElementById('quizContainer');
             const progress = document.getElementById('quizProgress');
+            const timerValEl = document.getElementById('quizTimerVal');
+
             if(!container) return;
+
             if(currentQuizIndex >= quizData.length) {
-                container.innerHTML = `<div class="text-center py-8 space-y-4"><div class="text-5xl">🏆</div><h3 class="text-2xl font-bold text-cyan-400">Hoàn thành Quiz!</h3><p class="text-slate-300 text-sm">Điểm của <b class="text-amber-400">${globalStudentName || 'Học sinh'}</b>: <b class="text-cyan-400">${quizScore} / ${quizData.length}</b></p><p class="text-xs text-emerald-400 font-semibold">✅ Kết quả đã được gửi về máy giáo viên!</p><button onclick="resetQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-6 rounded-xl transition">Làm lại</button></div>`;
+                document.getElementById('quizTimerDisplay').classList.add('hidden');
+                document.getElementById('quizExitBtn').classList.add('hidden');
+                let totalSec = Math.round((Date.now() - quizStartTime) / 1000);
+                container.innerHTML = `<div class="text-center py-8 space-y-4"><div class="text-5xl">🏆</div><h3 class="text-2xl font-bold text-cyan-400">Hoàn thành Quiz!</h3><p class="text-slate-300 text-sm">Điểm của <b class="text-amber-400">${globalStudentName || 'Học sinh'}</b>: <b class="text-cyan-400">${quizScore} / ${quizData.length}</b></p><p class="text-slate-400 text-xs">Thời gian hoàn thành: <b>${totalSec} giây</b></p><p class="text-xs text-emerald-400 font-semibold">✅ Kết quả đã được gửi về máy giáo viên!</p><div class="flex justify-center gap-3"><button onclick="resetQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-6 rounded-xl transition cursor-pointer">Làm lại</button><button onclick="exitQuiz()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 px-6 rounded-xl transition border border-slate-700 cursor-pointer">Thoát</button></div></div>`;
                 if(progress) progress.textContent = "Hoàn thành";
                 
                 if(window.saveQuizToCloud && globalStudentName) {
-                    window.saveQuizToCloud(globalStudentName, quizScore);
+                    window.saveQuizToCloud(globalStudentName, quizScore, `Hoàn thành trong ${totalSec}s`);
                 }
                 return;
             }
+
             if(progress) progress.textContent = `Câu ${currentQuizIndex + 1} / ${quizData.length}`;
+            
+            questionTimeLeft = 30;
+            if(timerValEl) timerValEl.textContent = questionTimeLeft;
+
+            quizTimerInterval = setInterval(() => {
+                questionTimeLeft--;
+                if(timerValEl) timerValEl.textContent = questionTimeLeft;
+                if(questionTimeLeft <= 0) {
+                    clearInterval(quizTimerInterval);
+                    // Just move to next question silently when time expires without user click
+                    currentQuizIndex++;
+                    renderQuiz();
+                }
+            }, 1000);
+
             const item = quizData[currentQuizIndex];
             let html = `<h3 class="text-lg font-semibold text-slate-100 mb-4">${item.q}</h3><div class="space-y-3">`;
             item.options.forEach((opt, idx) => {
-                html += `<button onclick="checkQuiz(${idx})" class="w-full text-left bg-slate-800 hover:bg-slate-700 border border-slate-700 p-4 rounded-xl text-sm font-medium transition">${opt}</button>`;
+                html += `<button onclick="checkQuiz(${idx})" class="w-full text-left bg-slate-800 hover:bg-slate-700 border border-slate-700 p-4 rounded-xl text-sm font-medium transition cursor-pointer">${opt}</button>`;
             });
             html += `</div>`;
             container.innerHTML = html;
         }
 
         window.checkQuiz = function(selectedIdx) {
+            if(quizTimerInterval) clearInterval(quizTimerInterval);
             const item = quizData[currentQuizIndex];
             if(selectedIdx === item.correct) { quizScore++; openModal("Chính xác! 🎉", item.explanation, "🎯"); }
             else { openModal("Chưa chính xác", "Đáp án đúng là: " + item.options[item.correct], "💡"); }
@@ -837,20 +1566,89 @@
         };
 
         window.resetQuiz = function() {
-            currentQuizIndex = 0; quizScore = 0; renderQuiz();
+            currentQuizIndex = 0; quizScore = 0; quizStartTime = Date.now();
+            document.getElementById('quizExitBtn').classList.remove('hidden');
+            renderQuiz();
         };
 
-        window.submitDiscussion = function() {
-            const name = document.getElementById('discStudentName').value.trim();
-            const val = document.getElementById('studentAnswer').value.trim();
-            if(!name || !val) { openModal("Thiếu thông tin", "Vui lòng nhập tên và câu trả lời của em!", "⚠️"); return; }
+        // 5-Minute Discussion Timer Logic & Auto Submit
+        let discussionTimerInterval = null;
+        let discussionTimeLeft = 300; // 5 minutes in seconds
+        let discussionTimerStarted = false;
+
+        window.startDiscussionTimer = function() {
+            if(discussionTimerStarted) return;
+            discussionTimerStarted = true;
+            document.getElementById('startDiscussionTimerBtn').classList.add('hidden');
             
-            if(window.saveDiscussionToCloud) {
-                window.saveDiscussionToCloud(name, val);
+            discussionTimerInterval = setInterval(() => {
+                discussionTimeLeft--;
+                let min = Math.floor(discussionTimeLeft / 60);
+                let sec = discussionTimeLeft % 60;
+                const timerEl = document.getElementById('discussionTimerVal');
+                if(timerEl) {
+                    timerEl.textContent = `${min < 10 ? '0':''}${min}:${sec < 10 ? '0':''}${sec}`;
+                }
+
+                if(discussionTimeLeft <= 0) {
+                    clearInterval(discussionTimerInterval);
+                    autoSubmitWorksheetOnTimeout();
+                }
+            }, 1000);
+        };
+
+        function autoSubmitWorksheetOnTimeout() {
+            const groupNameInput = document.getElementById('groupNameInput');
+            if(!groupNameInput.value.trim()) {
+                groupNameInput.value = "Nhóm tự động nộp (Hết 5 phút)";
+            }
+            submitWorksheet(true);
+        }
+
+        window.submitWorksheet = function(isAuto = false) {
+            const groupName = document.getElementById('groupNameInput').value.trim();
+            const groupMembers = document.getElementById('groupMembersInput').value.trim();
+            const part1_1 = document.getElementById('worksheetPart1_1').value.trim();
+            const part1_2 = document.getElementById('worksheetPart1_2').value.trim();
+            const part2_1 = document.getElementById('worksheetPart2_1').value.trim();
+            const part2_2 = document.getElementById('worksheetPart2_2').value.trim();
+            
+            let aiReplaceChoice = "KHÔNG";
+            const radios = document.getElementsByName('aiReplaceChoice');
+            for(let r of radios) {
+                if(r.checked) { aiReplaceChoice = r.value; break; }
             }
 
-            document.getElementById('discussionResult').classList.remove('hidden');
-            document.getElementById('studentAnswer').value = "";
+            const part3_reason = document.getElementById('worksheetPart3_reason').value.trim();
+            const part3_action = document.getElementById('worksheetPart3_action').value.trim();
+
+            if(!groupName && !isAuto) {
+                openModal("Thiếu thông tin", "Vui lòng nhập tên nhóm của em trước khi gửi!", "⚠");
+                return;
+            }
+
+            const worksheetData = {
+                groupName: groupName || "Nhóm học sinh",
+                groupMembers,
+                part1_1,
+                part1_2,
+                part2_1,
+                part2_2,
+                aiReplaceChoice,
+                part3_reason,
+                part3_action
+            };
+
+            if(window.saveDiscussionToCloud) {
+                window.saveDiscussionToCloud(worksheetData);
+            }
+
+            document.getElementById('worksheetResult').classList.remove('hidden');
+            if(isAuto) {
+                openModal("⏰ Hết 5 phút thảo luận!", "Thời gian thảo luận đã kết thúc. Phiếu học tập của nhóm đã được tự động gửi về máy giáo viên thành công!", "🚀");
+            } else {
+                openModal("Thành công! 🚀", "Phiếu thảo luận của nhóm đã được gửi thành công về máy giáo viên.", "✅");
+            }
         };
 
         // ================= MINIGAME 3 PHÚT & THÁCH ĐẤU LỚP HỌC =================
@@ -1049,7 +1847,7 @@
             }
 
             let isWinner = score >= 100;
-            let title = isWinner ? "🎉 CHÚC MỪNG TRÚNG THƯỞNG! 🎁" : "💪 CHƯA TRÚNG THƯỞNG - CỐ GẮNG LẦN SAU!";
+            let title = isWinner ? "🎉 CHÚC MỪNG TRÚNG THƯỞNG! 🎁" : "💫 CHƯA TRÚNG THƯỞNG - CỐ GẮNG LẦN SAU!";
             let icon = isWinner ? "🏆" : "💫";
             let msg = `
                 <p>Học sinh / Nhóm: <b class="text-amber-400">${studentName}</b></p>
