@@ -17,8 +17,6 @@
         .glass-card { background: rgba(17, 24, 39, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .tab-btn.active { background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); color: white; box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); }
         .glow { box-shadow: 0 0 25px rgba(59, 130, 246, 0.4); }
-        @keyframes pulseGlow { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .animate-pulse-glow { animation: pulseGlow 2s infinite; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -41,7 +39,7 @@
                 <button onclick="switchTab(2)" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">3 Mô hình</button>
                 <button onclick="switchTab(3)" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">Công cụ AI & Phụ Đạo</button>
                 <button onclick="switchTab(4)" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">Padlet & Thực hành</button>
-                <button onclick="switchTab(5)" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">Thách đấu 3 Phút 🏆</button>
+                <button onclick="switchTab(5)" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">Thách đấu 1 Phút 🏆</button>
                 <button onclick="switchTab(6)" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">Thảo luận</button>
                 <button onclick="switchTab(7)" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">Bảng Giáo Viên 📊</button>
             </nav>
@@ -215,20 +213,19 @@
             </div>
         </section>
 
-        <!-- TAB 5: THÁCH ĐẤU 3 PHÚT (MINIGAME) -->
+        <!-- TAB 5: THÁCH ĐẤU 1 PHÚT (MINIGAME) -->
         <section id="tab-5" class="space-y-6 hidden">
             <div class="glass-card rounded-3xl p-6 md:p-8 max-w-xl mx-auto text-center space-y-6">
                 <div id="game-start-screen" class="space-y-4">
                     <div class="text-6xl animate-bounce">🕹️️</div>
-                    <h3 class="text-2xl font-extrabold text-white">Thách Đấu 3 Phút: Né Chướng Ngại Vật AI</h3>
-                    <p class="text-xs text-slate-300">Điều khiển vật phẩm né chướng ngập ngừng, thu thập dữ liệu thông minh trong 3 phút trên điện thoại!</p>
+                    <h3 class="text-2xl font-extrabold text-white">Thách Đấu 1 Phút: Né Chướng Ngại Vật AI</h3>
+                    <p class="text-xs text-slate-300">Điều khiển vật phẩm né chướng ngại vật, thu thập dữ liệu thông minh trong 1 phút trên điện thoại!</p>
                     
                     <!-- BẢNG GIẢI THÍCH BIỂU TƯỢNG TRÒ CHƠI -->
                     <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 text-left space-y-2 text-xs">
                         <p class="font-bold text-indigo-400">🎮 Hướng dẫn biểu tượng trong trò chơi:</p>
                         <div class="flex items-center gap-2 text-slate-300"><span>⭐</span> <span>Thu thập Ngôi Sao (+10 điểm - Điểm thưởng kiến thức)</span></div>
-                        <div class="flex items-center gap-2 text-slate-300"><span>🤖</span> <span>Tránh Robot lỗi (-5 điểm hoặc kết thúc game nếu cạn mạng)</span></div>
-                        <div class="flex items-center gap-2 text-slate-300"><span>⚡</span> <span>Tăng tốc năng lượng (Boost tốc độ phản xạ)</span></div>
+                        <div class="flex items-center gap-2 text-slate-300"><span>🤖</span> <span>Tránh Robot lỗi (-5 điểm)</span></div>
                     </div>
 
                     <!-- HƯỚNG DẪN PHÍM ĐIỀU KHIỂN TRÊN ĐIỆN THOẠI / MÁY TÍNH -->
@@ -238,14 +235,14 @@
                     </div>
 
                     <input type="text" id="game-player-name" placeholder="Nhập tên học sinh tham gia..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-center focus:outline-none focus:border-indigo-500 text-sm">
-                    <button onclick="startMinigame()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-3 rounded-xl transition-all shadow-lg text-sm">Vào Thách Đấu 3 Phút 🚀</button>
+                    <button onclick="startMinigame()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-3 rounded-xl transition-all shadow-lg text-sm">Vào Thách Đấu 1 Phút 🚀</button>
                 </div>
 
                 <div id="game-play-screen" class="hidden space-y-4">
                     <div class="flex justify-between items-center bg-slate-900 px-4 py-2 rounded-xl border border-slate-800 text-xs">
                         <span>Học sinh: <strong id="lbl-player-name" class="text-indigo-400"></strong></span>
                         <span>Điểm: <strong id="lbl-score" class="text-emerald-400 text-sm">0</strong></span>
-                        <span>Thời gian: <strong id="lbl-time" class="text-amber-400">180s</strong></span>
+                        <span>Thời gian: <strong id="lbl-time" class="text-amber-400">60s</strong></span>
                     </div>
 
                     <!-- CANVAS GAME VIEWPORT TỐI ƯU CHO DI ĐỘNG -->
@@ -266,7 +263,10 @@
                     <div class="text-5xl">🏆</div>
                     <h3 class="text-xl font-bold text-white">Kết Quả Thách Đấu</h3>
                     <p id="final-game-stats" class="text-indigo-300 text-sm"></p>
-                    <button onclick="restartMinigame()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-6 py-2.5 rounded-xl text-xs transition-all shadow-lg">Chơi lại 🔄</button>
+                    <div class="flex justify-center gap-3">
+                        <button onclick="restartMinigame()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 py-2.5 rounded-xl text-xs transition-all shadow-lg">Chơi lại 🔄</button>
+                        <button onclick="exitMinigame()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-5 py-2.5 rounded-xl border border-slate-700 transition-all">Thoát 🚪</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -321,10 +321,10 @@
             <div class="glass-card rounded-3xl p-6 md:p-8 space-y-6">
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4 bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
                     <div>
-                        <h3 class="text-xl font-bold text-indigo-300">📊 Bảng Quản Lý & Kết Quả Đám Mây (Realtime - Firestore)</h3>
-                        <p class="text-xs text-slate-400">Đã kết nối Firebase Project: giangnam146-5a353. Dữ liệu lưu trữ vĩnh viễn trên đám mây.</p>
+                        <h3 class="text-xl font-bold text-indigo-300">📊 Bảng Quản Lý & Kết Quả Đám Mây (Firestore: artifacts/giangnam146-5a353/public)</h3>
+                        <p class="text-xs text-emerald-400 font-semibold mt-1">🟢 Đang đồng bộ dữ liệu thời gian thực (Realtime Sync) từ Firebase Console.</p>
                     </div>
-                    <button onclick="downloadCloudData()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow flex items-center gap-2"><span>📥</span> Tải Dữ Liệu Đám Mây Về</button>
+                    <button onclick="refreshCloudDataToInterface()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow flex items-center gap-2"><span>🔄</span> Làm Mới Dữ Liệu</button>
                 </div>
 
                 <!-- TƯ DUY GIÁO VIÊN BANNER -->
@@ -350,7 +350,7 @@
                                 </tr>
                             </thead>
                             <tbody id="teacher-minigame-table">
-                                <tr><td colspan="5" class="p-4 text-center text-slate-500">Đang đồng bộ dữ liệu đám mây từ giangnam146-5a353...</td></tr>
+                                <tr><td colspan="5" class="p-4 text-center text-slate-500">Đang lắng nghe dữ liệu từ đám mây...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -373,7 +373,7 @@
                                 </tr>
                             </thead>
                             <tbody id="teacher-quiz-table">
-                                <tr><td colspan="4" class="p-4 text-center text-slate-500">Chưa có học sinh nộp bài Quiz.</td></tr>
+                                <tr><td colspan="4" class="p-4 text-center text-slate-500">Đang lắng nghe dữ liệu từ đám mây...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -397,7 +397,7 @@
                                 </tr>
                             </thead>
                             <tbody id="teacher-discussion-table">
-                                <tr><td colspan="5" class="p-4 text-center text-slate-500">Chưa có nhóm gửi phiếu.</td></tr>
+                                <tr><td colspan="5" class="p-4 text-center text-slate-500">Đang lắng nghe dữ liệu từ đám mây...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -414,7 +414,7 @@
 
     <!-- SCRIPT LOGIC -->
     <script>
-        // --- FIREBASE CONFIG (Connected to project: giangnam146-5a353) ---
+        // --- FIREBASE CONFIG & PATH REF ---
         const firebaseConfig = {
             apiKey: "AIzaSyDummyKeyForGiangNam146",
             authDomain: "giangnam146-5a353.firebaseapp.com",
@@ -426,6 +426,9 @@
         }
         const db = firebase.firestore();
 
+        // Exact Firestore collection reference matching teacher's console hierarchy
+        const baseRef = db.collection('artifacts').doc('giangnam146-5a353').collection('public');
+
         // --- TAB SWITCHING ---
         function switchTab(index) {
             document.querySelectorAll('main > section').forEach((sec, idx) => {
@@ -435,7 +438,7 @@
                 btn.classList.toggle('active', idx === index);
             });
             if(index === 7) {
-                loadTeacherDashboard();
+                initRealtimeListeners();
             }
         }
 
@@ -455,7 +458,7 @@
             initPromptCards();
             startDiscussionTimer();
             setupMinigameControls();
-            loadTeacherDashboard();
+            initRealtimeListeners();
         };
 
         // --- TAB 1: QUIZ 30S ---
@@ -532,12 +535,7 @@
             
             const record = { name, score: quizScore, total: 3, timestamp: new Date().toISOString() };
             
-            // Save to Firestore (giangnam146-5a353) & LocalStorage fallback
-            db.collection('giangnam146_quiz').add(record).catch(() => {
-                let localQuiz = JSON.parse(localStorage.getItem('cloud_quiz') || '[]');
-                localQuiz.push(record);
-                localStorage.setItem('cloud_quiz', JSON.stringify(localQuiz));
-            });
+            baseRef.collection('quiz_results').add(record).catch(err => console.log('Firestore offline', err));
         }
 
         function exitQuiz() { initQuiz(); }
@@ -581,10 +579,10 @@
             }
         }
 
-        // --- TAB 5: MINIGAME THÁCH ĐẤU 3 PHÚT ---
+        // --- TAB 5: MINIGAME THÁCH ĐẤU 1 PHÚT (60S) ---
         let timeInterval;
         let gameScore = 0;
-        let gameTimeLeft = 180;
+        let gameTimeLeft = 60; // 1 phút
         let playerX = 140;
         let obstacles = [];
         let playerName = "";
@@ -595,10 +593,11 @@
             if(!playerName) { alert('Vui lòng nhập tên học sinh!'); return; }
             document.getElementById('game-start-screen').classList.add('hidden');
             document.getElementById('game-play-screen').classList.remove('hidden');
+            document.getElementById('game-over-screen').classList.add('hidden');
             document.getElementById('lbl-player-name').innerText = playerName;
             
             gameScore = 0;
-            gameTimeLeft = 180;
+            gameTimeLeft = 60; // 1 phút
             playerX = 140;
             obstacles = [];
             gameActive = true;
@@ -682,27 +681,23 @@
             document.getElementById('game-over-screen').classList.remove('hidden');
             document.getElementById('final-game-stats').innerText = `Học sinh: ${playerName} | Điểm số: ${gameScore} điểm`;
 
-            const timeTaken = 180 - gameTimeLeft;
+            const timeTaken = 60 - gameTimeLeft;
             const record = { name: playerName, score: gameScore, timeTaken, timestamp: new Date().toISOString() };
             
-            // Save to Firestore (giangnam146-5a353) & LocalStorage fallback
-            db.collection('giangnam146_minigame').add(record).catch(() => {
-                let localGames = JSON.parse(localStorage.getItem('cloud_minigame') || '[]');
-                localGames.push(record);
-                localStorage.setItem('cloud_minigame', JSON.stringify(localGames));
-            });
+            baseRef.collection('minigame_results').add(record).catch(err => console.log('Firestore offline', err));
         }
 
         function exitMinigame() {
             gameActive = false;
             clearInterval(timeInterval);
             document.getElementById('game-play-screen').classList.add('hidden');
+            document.getElementById('game-over-screen').classList.add('hidden');
             document.getElementById('game-start-screen').classList.remove('hidden');
         }
 
         function restartMinigame() {
             document.getElementById('game-over-screen').classList.add('hidden');
-            document.getElementById('game-start-screen').classList.remove('hidden');
+            startMinigame();
         }
 
         // --- TAB 6: THẢO LUẬN & ĐỒNG HỒ 5 PHÚT ---
@@ -734,38 +729,31 @@
 
             const record = { group, members, p1, p2, aiReplace, reason, message, timestamp: new Date().toISOString() };
             
-            // Save to Firestore (giangnam146-5a353) & LocalStorage fallback
-            db.collection('giangnam146_discussion').add(record).catch(() => {
-                let localDisc = JSON.parse(localStorage.getItem('cloud_discussion') || '[]');
-                localDisc.push(record);
-                localStorage.setItem('cloud_discussion', JSON.stringify(localDisc));
-            });
-
+            baseRef.collection('discussion_results').add(record).catch(err => console.log('Firestore offline', err));
             alert('Đã gửi phiếu học tập nhóm thành công về máy giáo viên!');
         }
 
-        // --- TAB 7: BẢNG GIÁO VIÊN & XẾP HẠNG VĨNH VIỄN ---
-        function loadTeacherDashboard() {
-            loadMinigameLeaderboard();
-            loadQuizTable();
-            loadDiscussionTable();
-        }
+        // --- TAB 7: REALTIME FIRESTORE LISTENERS (SNAPSHOT) ---
+        function initRealtimeListeners() {
+            // Minigame Realtime Listener
+            baseRef.collection('minigame_results').onSnapshot(snapshot => {
+                let data = [];
+                snapshot.forEach(doc => data.push({ id: doc.id, ...doc.data() }));
+                renderLeaderboard(data);
+            });
 
-        function loadMinigameLeaderboard() {
-            const tbody = document.getElementById('teacher-minigame-table');
-            
-            db.collection('giangnam146_minigame').get().then(snapshot => {
-                let cloudData = [];
-                snapshot.forEach(doc => cloudData.push(doc.data()));
-                if(cloudData.length > 0) {
-                    renderLeaderboard(cloudData);
-                } else {
-                    let localData = JSON.parse(localStorage.getItem('cloud_minigame') || '[]');
-                    renderLeaderboard(localData);
-                }
-            }).catch(() => {
-                let localData = JSON.parse(localStorage.getItem('cloud_minigame') || '[]');
-                renderLeaderboard(localData);
+            // Quiz Realtime Listener
+            baseRef.collection('quiz_results').onSnapshot(snapshot => {
+                let data = [];
+                snapshot.forEach(doc => data.push({ id: doc.id, ...doc.data() }));
+                renderQuizTableData(data);
+            });
+
+            // Discussion Realtime Listener
+            baseRef.collection('discussion_results').onSnapshot(snapshot => {
+                let data = [];
+                snapshot.forEach(doc => data.push({ id: doc.id, ...doc.data() }));
+                renderDiscussionTableData(data);
             });
         }
 
@@ -798,107 +786,67 @@
             });
         }
 
-        function loadQuizTable() {
+        function renderQuizTableData(data) {
             const tbody = document.getElementById('teacher-quiz-table');
-            db.collection('giangnam146_quiz').get().then(snapshot => {
-                let data = [];
-                snapshot.forEach(doc => data.push(doc.data()));
-                if(data.length === 0) data = JSON.parse(localStorage.getItem('cloud_quiz') || '[]');
-                
-                if(data.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-500">Chưa có học sinh hoàn thành Quiz.</td></tr>`;
-                    return;
-                }
-                tbody.innerHTML = '';
-                data.forEach((item, idx) => {
-                    const tr = document.createElement('tr');
-                    tr.className = "border-b border-slate-800/60";
-                    tr.innerHTML = `
-                        <td class="p-3 text-white font-medium">${item.name}</td>
-                        <td class="p-3 text-indigo-400 font-bold">${item.score}/${item.total}</td>
-                        <td class="p-3 text-slate-400">${new Date(item.timestamp).toLocaleTimeString()}</td>
-                        <td class="p-3"><button onclick="deleteRecord('giangnam146_quiz', ${idx})" class="text-red-400 hover:text-red-300 text-xs">Xóa</button></td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            }).catch(() => {
-                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-500">Lỗi kết nối Firestore.</td></tr>`;
+            if(!data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-500">Chưa có học sinh hoàn thành Quiz.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = '';
+            data.forEach((item, idx) => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-800/60";
+                tr.innerHTML = `
+                    <td class="p-3 text-white font-medium">${item.name}</td>
+                    <td class="p-3 text-indigo-400 font-bold">${item.score}/${item.total}</td>
+                    <td class="p-3 text-slate-400">${new Date(item.timestamp).toLocaleTimeString()}</td>
+                    <td class="p-3"><button onclick="deleteRecord('quiz_results', '${item.id}')" class="text-red-400 hover:text-red-300 text-xs">Xóa</button></td>
+                `;
+                tbody.appendChild(tr);
             });
         }
 
-        function loadDiscussionTable() {
+        function renderDiscussionTableData(data) {
             const tbody = document.getElementById('teacher-discussion-table');
-            db.collection('giangnam146_discussion').get().then(snapshot => {
-                let data = [];
-                snapshot.forEach(doc => data.push(doc.data()));
-                if(data.length === 0) data = JSON.parse(localStorage.getItem('cloud_discussion') || '[]');
-
-                if(data.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-500">Chưa có nhóm gửi phiếu thảo luận.</td></tr>`;
-                    return;
-                }
-                tbody.innerHTML = '';
-                data.forEach((item, idx) => {
-                    const tr = document.createElement('tr');
-                    tr.className = "border-b border-slate-800/60";
-                    tr.innerHTML = `
-                        <td class="p-3 text-white font-bold">${item.group}</td>
-                        <td class="p-3">${item.members}</td>
-                        <td class="p-3 truncate max-w-xs">${item.p1}</td>
-                        <td class="p-3 font-semibold text-indigo-300">${item.aiReplace}</td>
-                        <td class="p-3"><button onclick="deleteRecord('giangnam146_discussion', ${idx})" class="text-red-400 hover:text-red-300 text-xs">Xóa</button></td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            }).catch(() => {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-500">Lỗi kết nối Firestore.</td></tr>`;
+            if(!data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-500">Chưa có nhóm gửi phiếu thảo luận.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = '';
+            data.forEach((item, idx) => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-800/60";
+                tr.innerHTML = `
+                    <td class="p-3 text-white font-bold">${item.group}</td>
+                    <td class="p-3">${item.members}</td>
+                    <td class="p-3 truncate max-w-xs">${item.p1}</td>
+                    <td class="p-3 font-semibold text-indigo-300">${item.aiReplace}</td>
+                    <td class="p-3"><button onclick="deleteRecord('discussion_results', '${item.id}')" class="text-red-400 hover:text-red-300 text-xs">Xóa</button></td>
+                `;
+                tbody.appendChild(tr);
             });
         }
 
-        function deleteRecord(collectionName, index) {
+        function deleteRecord(collectionName, docId) {
             if(confirm('Bạn có muốn xóa bản ghi này?')) {
-                db.collection(collectionName).get().then(snapshot => {
-                    let docs = [];
-                    snapshot.forEach(doc => docs.push(doc.ref));
-                    if(docs[index]) {
-                        docs[index].delete().then(() => loadTeacherDashboard());
-                    }
-                });
+                baseRef.collection(collectionName).doc(docId).delete().catch(err => console.log(err));
             }
         }
 
         function clearCloudData(type) {
             if(confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu này không?')) {
-                let colName = type === 'minigame' ? 'giangnam146_minigame' : (type === 'quiz' ? 'giangnam146_quiz' : 'giangnam146_discussion');
-                db.collection(colName).get().then(snapshot => {
+                let colName = type === 'minigame' ? 'minigame_results' : (type === 'quiz' ? 'quiz_results' : 'discussion_results');
+                baseRef.collection(colName).get().then(snapshot => {
                     let batch = db.batch();
                     snapshot.forEach(doc => batch.delete(doc.ref));
-                    batch.commit().then(() => loadTeacherDashboard());
-                });
-                localStorage.removeItem('cloud_' + type);
+                    batch.commit();
+                }).catch(() => {});
             }
         }
 
-        function downloadCloudData() {
-            db.collection('giangnam146_minigame').get().then(mgSnap => {
-                db.collection('giangnam146_quiz').get().then(qSnap => {
-                    db.collection('giangnam146_discussion').get().then(dSnap => {
-                        let minigame = [], quiz = [], discussion = [];
-                        mgSnap.forEach(d => minigame.push(d.data()));
-                        qSnap.forEach(d => quiz.push(d.data()));
-                        dSnap.forEach(d => discussion.push(d.data()));
-
-                        const allData = { minigame, quiz, discussion, exportedAt: new Date().toISOString() };
-                        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allData, null, 2));
-                        const downloadAnchor = document.createElement('a');
-                        downloadAnchor.setAttribute("href", dataStr);
-                        downloadAnchor.setAttribute("download", `DuLieuDamMay_GiangNam146_${Date.now()}.json`);
-                        document.body.appendChild(downloadAnchor);
-                        downloadAnchor.click();
-                        downloadAnchor.remove();
-                    });
-                });
-            });
+        function refreshCloudDataToInterface() {
+            initRealtimeListeners();
+            alert("🔄 Đã làm mới kết nối và đồng bộ dữ liệu thời gian thực từ Firebase Console!");
         }
     </script>
 </body>
