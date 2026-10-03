@@ -609,14 +609,14 @@ else
                     </div>
 
                     <!-- Canvas Game Viewport -->
-                    <div id="canvasContainer" class="relative w-full aspect-[4/3] sm:aspect-[16/9] bg-slate-950 rounded-2xl overflow-hidden shadow-xl border-2 border-slate-800 hidden">
+                    <div id="canvasContainer" class="relative w-full max-w-sm sm:max-w-md mx-auto aspect-[3/4] sm:aspect-[4/3] bg-slate-950 rounded-2xl overflow-hidden shadow-xl border-2 border-slate-800 hidden">
                         <canvas id="gameCanvas"></canvas>
                     </div>
 
-                    <!-- Touch controls for mobile -->
-                    <div id="touchControls" class="w-full flex justify-between gap-4 hidden">
-                        <button id="leftBtn" class="flex-1 bg-slate-800 active:bg-slate-700 text-cyan-400 font-bold py-4 rounded-xl border border-slate-700 text-lg flex items-center justify-center gap-2 select-none" style="touch-action: none;"><span>◀</span> Trái</button>
-                        <button id="rightBtn" class="flex-1 bg-slate-800 active:bg-slate-700 text-cyan-400 font-bold py-4 rounded-xl border border-slate-700 text-lg flex items-center justify-center gap-2 select-none" style="touch-action: none;">Phải <span><span>▶</span></button>
+                    <!-- Touch controls for mobile with Z and M keys -->
+                    <div id="touchControls" class="w-full max-w-sm sm:max-w-md mx-auto flex justify-between gap-4 hidden">
+                        <button id="leftBtn" class="flex-1 bg-gradient-to-r from-slate-800 to-slate-900 active:from-cyan-900 active:to-slate-900 text-cyan-400 font-bold py-4 rounded-2xl border-2 border-cyan-500/40 text-base sm:text-lg flex items-center justify-center gap-2 select-none shadow-lg" style="touch-action: none;"><span>◀ [ Z ]</span> Trái</button>
+                        <button id="rightBtn" class="flex-1 bg-gradient-to-r from-slate-800 to-slate-900 active:from-cyan-900 active:to-slate-900 text-cyan-400 font-bold py-4 rounded-2xl border-2 border-cyan-500/40 text-base sm:text-lg flex items-center justify-center gap-2 select-none shadow-lg" style="touch-action: none;">Phải <span>[ M ] ▶</span></button>
                     </div>
 
                 </div>
@@ -1683,7 +1683,7 @@ else
 
         let score = 0, lives = 3, timeRemaining = 180, isPlaying = false, frameCount = 0, timerInterval = null;
         let studentName = "Học sinh";
-        const player = { x: 350, y: 370, width: 60, height: 50, speed: 8 };
+        const player = { x: 150, y: 370, width: 60, height: 50, speed: 8 };
         const itemTypes = [
             { emoji: '🤖', name: 'AI Gia sư', points: 15, type: 'good', prob: 0.3 },
             { emoji: '💻', name: 'Blended', points: 20, type: 'good', prob: 0.25 },
@@ -1694,12 +1694,12 @@ else
         let fallingItems = [], particles = [], keys = { ArrowLeft: false, ArrowRight: false };
 
         window.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft' || e.key === 'a') keys.ArrowLeft = true;
-            if (e.key === 'ArrowRight' || e.key === 'd') keys.ArrowRight = true;
+            if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'z' || e.key === 'Z') keys.ArrowLeft = true;
+            if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'm' || e.key === 'M') keys.ArrowRight = true;
         });
         window.addEventListener('keyup', (e) => {
-            if (e.key === 'ArrowLeft' || e.key === 'a') keys.ArrowLeft = false;
-            if (e.key === 'ArrowRight' || e.key === 'd') keys.ArrowRight = false;
+            if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'z' || e.key === 'Z') keys.ArrowLeft = false;
+            if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'm' || e.key === 'M') keys.ArrowRight = false;
         });
 
         let touchLeft = false, touchRight = false;
