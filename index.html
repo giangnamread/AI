@@ -235,8 +235,7 @@
     import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // Global App Configuration
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'debate-app-2026';
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'chat_session_01';
     const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
         apiKey: "demo-key",
         authDomain: "demo.firebaseapp.com",
@@ -268,9 +267,9 @@
         }
     }
 
-    // Collection reference following rule 1
     const getDebatesCollection = () => {
-        return collection(db, 'artifacts', appId, 'public', 'data', 'debate_submissions');
+        // Lưu trữ vào Firestore theo cấu trúc chuẩn công khai của ứng dụng
+        return collection(db, 'artifacts', appId, 'public', 'data', 'chat_messages');
     };
 
     // Submit debate response to Cloud
@@ -292,6 +291,9 @@
 
         try {
             await addDoc(getDebatesCollection(), {
+                sender: `${group} (${members})`,
+                text: argumentsText,
+                timestamp: new Date().toISOString(),
                 group: group,
                 stance: stance,
                 members: members,
@@ -307,7 +309,7 @@
                 }
             });
 
-            alert("✅ Nộp bài thành công! Bài làm của nhóm bạn đã được lưu lên Đám mây và chuyển tới máy Giáo viên.");
+            alert("✅ Nộp bài thành công! Bài làm của nhóm bạn đã được lưu vào Firestore và chuyển tới máy Giáo viên.");
             document.getElementById('debateForm').reset();
         } catch (error) {
             console.error("Lỗi gửi bài:", error);
@@ -318,7 +320,6 @@
         }
     };
 
-    // Listen to real-time Cloud updates for Teacher dashboard
     function listenToSubmissions() {
         if (!currentUser) return;
 
@@ -329,7 +330,7 @@
             });
 
             // Sort by submission time (newest first)
-            submissions.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+            submissions.sort((a, b) => new Date(b.submittedAt || b.timestamp) - new Date(a.submittedAt || a.timestamp));
 
             renderTeacherDashboard(submissions);
         }, (err) => {
@@ -337,89 +338,6 @@
         });
     }
 
-    // Render submissions in Teacher's UI
-    function renderTeacherDashboard(submissions) {
-        const container = document.getElementById('teacherSubmissionsList');
-        document.getElementById('submissionCount').innerText = submissions.length;
-
-        if (submissions.length === 0) {
-            container.innerHTML = `
-                <div class="col-span-full text-center py-12 bg-white rounded-2xl border border-dashed border-slate-300">
-                    <i class="fa-solid fa-inbox text-4xl text-slate-300 mb-2"></i>
-                    <p class="text-slate-500 font-medium">Chưa có nhóm nào nộp bài. Dữ liệu sẽ tự động xuất hiện khi học sinh nộp từ điện thoại!</p>
-                </div>
-            `;
-            return;
-        }
-
-        container.innerHTML = submissions.map(sub => {
-            const isAgree = sub.stance === 'Đồng ý';
-            const badgeBg = isAgree ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'bg-rose-100 text-rose-800 border-rose-300';
-            const scores = sub.scores || { style: 0, method: 0, content: 0, teamwork: 0, total: 0, graded: false };
-
-            return `
-                <div class="bg-white rounded-2xl p-5 shadow-md border border-slate-200 flex flex-col justify-between space-y-4">
-                    <div>
-                        <!-- Header -->
-                        <div class="flex justify-between items-start gap-2 border-b pb-3 mb-3">
-                            <div>
-                                <span class="bg-indigo-600 text-white font-extrabold text-xs px-2.5 py-1 rounded-lg uppercase tracking-wide">
-                                    ${sub.group}
-                                </span>
-                                <h4 class="font-bold text-slate-800 text-base mt-2">${sub.members}</h4>
-                            </div>
-                            <span class="px-3 py-1 rounded-full text-xs font-bold border ${badgeBg} flex items-center gap-1">
-                                <i class="fa-solid ${isAgree ? 'fa-thumbs-up' : 'fa-thumbs-down'}"></i>
-                                ${sub.stance}
-                            </span>
-                        </div>
-
-                        <!-- Content -->
-                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-100 mb-4">
-                            <p class="text-xs text-slate-400 font-semibold mb-1 uppercase tracking-wider">Lập luận & Dẫn chứng:</p>
-                            <p class="text-sm text-slate-700 whitespace-pre-line leading-relaxed">${escapeHtml(sub.arguments)}</p>
-                        </div>
-                    </div>
-
-                    <!-- Grading Section -->
-                    <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-xs font-bold text-indigo-900 uppercase">Chấm điểm theo Tiêu chí (100đ):</span>
-                            <span class="text-sm font-extrabold ${scores.graded ? 'text-emerald-600' : 'text-slate-400'}">
-                                ${scores.graded ? `Tổng: ${scores.total}/100 Đ` : 'Chưa chấm'}
-                            </span>
-                        </div>
-
-                        <!-- Rubric Inputs -->
-                        <div class="grid grid-cols-2 gap-2 text-xs mb-3">
-                            <div>
-                                <label class="text-slate-600 block mb-0.5">Phong cách (Max 20)</label>
-                                <input type="number" min="0" max="20" id="score_style_${sub.id}" value="${scores.style || 0}" class="w-full p-2 rounded-lg border border-slate-300 text-center font-bold">
-                            </div>
-                            <div>
-                                <label class="text-slate-600 block mb-0.5">Phương pháp (Max 20)</label>
-                                <input type="number" min="0" max="20" id="score_method_${sub.id}" value="${scores.method || 0}" class="w-full p-2 rounded-lg border border-slate-300 text-center font-bold">
-                            </div>
-                            <div>
-                                <label class="text-slate-600 block mb-0.5">Nội dung (Max 40)</label>
-                                <input type="number" min="0" max="40" id="score_content_${sub.id}" value="${scores.content || 0}" class="w-full p-2 rounded-lg border border-slate-300 text-center font-bold">
-                            </div>
-                            <div>
-                                <label class="text-slate-600 block mb-0.5">Đồng đội (Max 20)</label>
-                                <input type="number" min="0" max="20" id="score_teamwork_${sub.id}" value="${scores.teamwork || 0}" class="w-full p-2 rounded-lg border border-slate-300 text-center font-bold">
-                            </div>
-                        </div>
-
-                        <button onclick="saveGrade('${sub.id}')" class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
-                            <i class="fa-solid fa-floppy-disk"></i> Luư & Chấm Điểm
-                        </button>
-                    </div>
-                </div>
-            `;
-        }).join('');
-    }
-
-    // Save grades to Firestore
     window.saveGrade = async function(docId) {
         const style = parseInt(document.getElementById(`score_style_${docId}`).value) || 0;
         const method = parseInt(document.getElementById(`score_method_${docId}`).value) || 0;
@@ -429,7 +347,7 @@
         const total = style + method + content + teamwork;
 
         try {
-            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'debate_submissions', docId);
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'chat_messages', docId);
             await updateDoc(docRef, {
                 scores: {
                     style,
